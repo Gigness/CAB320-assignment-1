@@ -1,8 +1,5 @@
 import operator
 
-#Test
-
-
 """
 Code for a CAB320 assignment
 Last modified 2016-03-22
@@ -55,13 +52,6 @@ class Warehouse:
 
     self.worker
     """
-
-    def __init__(self):
-        self.worker = None
-        self.boxes = None
-        self.targets = None
-        self.walls = None
-        self.state = None
 
     def copy(self, worker = None, boxes = None):
         """
@@ -142,7 +132,18 @@ class Warehouse:
                 vis[y][x] = "$"
         return "\n".join(["".join(line) for line in vis])
 
-        # Moving the worker
+
+
+    def __eq__(self, other):
+        return self.worker == other.worker and \
+               self.boxes == other.boxes
+
+    def __hash__(self):
+        return hash(self.worker) ^ reduce(operator.xor, [hash(box) for box in self.boxes])
+
+    """
+    Movement of worker
+    """
     def moveUp(self):
         x, y = self.worker
         new_x, new_y = x, y-1
@@ -163,27 +164,48 @@ class Warehouse:
         new_x, new_y = x-1, y
         self.worker = (new_x, new_y)
 
+    """
+    Movement of boxes
+    """
     def pushBoxUp(self, x, y):
         try:
             boxIndex = self.boxes.index((x,y))
-            self.boxes[boxIndex][1] -= 1
+            x,y = self.boxes[boxIndex]
+            y -= 1
+            self.boxes[boxIndex] = (x,y)
             return True
         except ValueError:
             return False
 
-        # box = next((box for box in self.boxes if (x, y) == box), None)
-        # assert box
-        # box_x, box_y = box
-        # box = (box_x, box_y-1)
+    def pushBoxDown(self, x, y):
+        try:
+            boxIndex = self.boxes.index((x,y))
+            x,y = self.boxes[boxIndex]
+            y += 1
+            self.boxes[boxIndex] = (x,y)
+            return True
+        except ValueError:
+            return False
 
+    def pushBoxLeft(self, x, y):
+        try:
+            boxIndex = self.boxes.index((x,y))
+            x,y = self.boxes[boxIndex]
+            x -= 1
+            self.boxes[boxIndex] = (x,y)
+            return True
+        except ValueError:
+            return False
 
-
-    def __eq__(self, other):
-        return self.worker == other.worker and \
-               self.boxes == other.boxes
-
-    def __hash__(self):
-        return hash(self.worker) ^ reduce(operator.xor, [hash(box) for box in self.boxes])
+    def pushBoxRight(self, x, y):
+        try:
+            boxIndex = self.boxes.index((x,y))
+            x,y = self.boxes[boxIndex]
+            x += 1
+            self.boxes[boxIndex] = (x,y)
+            return True
+        except ValueError:
+            return False
     
 # if __name__ == "__main__":
     
@@ -197,3 +219,61 @@ class Warehouse:
 # + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
 #                              CODE CEMETERY
 # + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
+
+
+#     """
+#     Actions available are Up, Down, Left and Right.
+#     """
+#     def actions(self):
+#         actions = list()
+#         w_x0, w_y0 = self.worker
+#
+#         w_x_left = w_x0 - 1
+#         w_x_right = w_x0 + 1
+#         w_y_down = w_y0 + 1
+#         w_y_up = w_y0 - 1
+#
+#         if (w_x_left, w_y0) not in self.walls:
+#             if(w_x_left, w_y0) not in self.boxes:
+#                 actions.append('Left')
+#             else:
+#                 # theres a box there, check if theres no box & wall to the new box pos
+#                 b_x0 = w_x_left - 1
+#                 b_y0 = w_y0
+#                 if (b_x0, b_y0) not in self.walls and (b_x0, b_y0) not in self.boxes:
+#                     actions.append('Left')
+#
+#         # check right
+#         if (w_x_right, w_y0) not in self.walls:
+#             if(w_x_right, w_y0) not in self.boxes:
+#                 actions.append('Right')
+#             else:
+#                 # theres a box there, check if theres no box & wall to the new box pos
+#                 b_x0 = w_x_right + 1
+#                 b_y0 = w_y0
+#                 if (b_x0, b_y0) not in self.walls and (b_x0, b_y0) not in self.boxes:
+#                     actions.append('Right')
+#
+#         # check up
+#         if (w_x0, w_y_up) not in self.walls:
+#             if(w_x0, w_y_up) not in self.boxes:
+#                 actions.append('Up')
+#             else:
+#                 # theres a box there, check if theres no box & wall to the new box pos
+#                 b_x0 = w_x0
+#                 b_y0 = w_y0 - 1
+#                 if (b_x0, b_y0) not in self.walls and (b_x0, b_y0) not in self.boxes:
+#                     actions.append('up')
+#
+#         # check down
+#         if (w_x0, w_y_down) not in self.walls:
+#             if(w_x0, w_y_down) not in self.boxes:
+#                 actions.append('Down')
+#             else:
+#                 # theres a box there, check if theres no box & wall to the new box pos
+#                 b_x0 = w_x0
+#                 b_y0 = w_y0 + 1
+#                 if (b_x0, b_y0) not in self.walls and (b_x0, b_y0) not in self.boxes:
+#                     actions.append('Down')
+#
+#         return actions
