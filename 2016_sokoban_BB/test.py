@@ -23,4 +23,7 @@ w.read_warehouse_file(file_warehouse_03)
 # t6 = tabooCells(path_warehouses + "/warehouse_121.txt")
 # t7 = tabooCells(path_warehouses + "/warehouse_137.txt")
 # t8 = tabooCells(path_warehouses + "/warehouse_197.txt")
-t9 = tabooCells(path_warehouses + "/warehouse_141.txt")
+# t9 = tabooCells(path_warehouses + "/warehouse_141.txt")
+
+# print checkActions(file_warehouse_03, ["Right", "Up", "Up", "Left", "Left", "Left", "Up", "Left", "Down", "Down",
+#                    "Right", "Down", "Left", "Left"])

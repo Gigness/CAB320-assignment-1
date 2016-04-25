@@ -89,18 +89,10 @@ class SokobanPuzzle(cab320_search.Problem):
 
         return actions
 
-
     def result(self, state, action):
-        """
-        Given an action and a current state,
-        Return a new state.
-        Actions only generates legal actions, so therefore just do the movement
-        :param state:
-        :param action:
-        :return:
-        """
+        # convert state to list, separate worker form boxes
         state = list(state)
-        (w_x, w_y) = state.pop(0)
+        (w_x, w_y) = state.pop(0)  # Pop out the worker
 
         if action == 'Left':
             w_x1 = w_x - 1
@@ -129,46 +121,6 @@ class SokobanPuzzle(cab320_search.Problem):
                 state[state.index((b_x, b_y))] = (b_x, b_y - 1)  # Move pushed box left
             state.insert(0, (w_x, w_y1))
         return tuple(state)
-
-    def checkActions(self):
-        print self.warehouse.worker
-
-    def tabooCells(self):
-        targets = self.warehouse.targets
-
-        walls_y = [b for (a,b) in self.warehouse.walls]
-        wall_y_start = min(walls_y)
-        wall_y_end = max(walls_y)
-
-        taboo = list()
-
-        for row in xrange(wall_y_start + 1, wall_y_end):
-            # get the walls above, below and on the current row
-            row_above_walls = [a for (a,b) in self.warehouse.walls if b == row - 1]
-            row_below_walls = [a for (a,b) in self.warehouse.walls if b == row + 1]
-            row_current_walls = [a for (a,b) in self.warehouse.walls if b == row]
-
-            # determine which pos can be accessed by boxes
-            accessible_cells = list()
-            for pos in xrange(row_current_walls[0],row_current_walls[-1] + 1):
-                if pos not in row_current_walls:
-                    accessible_cells.append(pos)
-
-            for cell in accessible_cells:
-                left = cell - 1
-                right = cell + 1
-
-                if left in row_current_walls and (cell in row_above_walls or cell in row_below_walls):
-                    taboo.append((cell, row))
-                elif right in row_current_walls and (cell in row_above_walls or cell in row_below_walls):
-                    taboo.append((cell, row))
-
-        taboo_with_targets = [t for t in taboo if t not in self.warehouse.targets]
-
-        return taboo_with_targets
-
-
-
 
     def getGoalState(self):
         #
@@ -199,49 +151,45 @@ def checkActions(puzzleFileName, actionSequence):
         """
 
         soko = SokobanPuzzle(puzzleFileName)
-        print soko.warehouse.visualize()
+        boxes = list(soko.warehouse.boxes)
+        w_x, w_y = soko.warehouse.worker
+        walls = soko.warehouse.walls
 
         for action in actionSequence:
-            w_x0, w_y0 = soko.warehouse.worker
+            w_x0, w_y0 = w_x, w_y
             if action is "Left":
                 # Check what is to the "Left"
                 w_x1 = w_x0 - 1
                 # check if wall is in the way
-                if (w_x1, w_y0) in soko.warehouse.walls:
+                if (w_x1, w_y0) in walls:
                     return "Failure"
-                elif (w_x1, w_y0) in soko.warehouse.boxes:
+                elif (w_x1, w_y0) in boxes:
                     s_x0, s_y0 = w_x1, w_y0
                     s_x1 = s_x0 - 1
-                    if (s_x1, s_y0) in soko.warehouse.walls or (s_x1, s_y0) in soko.warehouse.boxes:
+                    if (s_x1, s_y0) in walls or (s_x1, s_y0) in boxes:
                         return "Failure"
                     else:
-                        # move the box left
-                        soko.warehouse.moveLeft()
-                        # move the worker left
-                        soko.warehouse.pushBoxLeft(s_x0, s_y0)
+                        w_x = w_x1
+                        boxes[boxes.index((s_x0, s_y0))] = (s_x1, s_y0)
                 else:
-                    soko.warehouse.moveLeft()
-                #print soko.warehouse.visualize()
-
+                        w_x = w_x1
             elif action is "Right":
                 # Check what is to the "Left"
                 w_x1 = w_x0 + 1
 
                 # check if wall is in the way
-                if (w_x1, w_y0) in soko.warehouse.walls:
+                if (w_x1, w_y0) in walls:
                     return "Failure"
-                elif (w_x1, w_y0) in soko.warehouse.boxes:
+                elif (w_x1, w_y0) in boxes:
                     s_x0, s_y0 = w_x1, w_y0
                     s_x1 = s_x0 + 1
-                    if (s_x1, s_y0) in soko.warehouse.walls or (s_x1, s_y0) in soko.warehouse.boxes:
+                    if (s_x1, s_y0) in walls or (s_x1, s_y0) in boxes:
                         return "Failure"
                     else:
-                        # move the box left
-                        soko.warehouse.moveRight()
-                        # move the worker left
-                        soko.warehouse.pushBoxRight(s_x0, s_y0)
+                        w_x = w_x1
+                        boxes[boxes.index((s_x0, s_y0))] = (s_x1, s_y0)
                 else:
-                    soko.warehouse.moveRight()
+                    w_x = w_x1
 
                 # print soko.warehouse.visualize()
             elif action is "Down":
@@ -249,40 +197,41 @@ def checkActions(puzzleFileName, actionSequence):
                 w_y1 = w_y0 + 1
 
                 # check if wall is in the way
-                if (w_x0, w_y1) in soko.warehouse.walls:
+                if (w_x0, w_y1) in walls:
                     return "Failure"
-                elif (w_x0, w_y1) in soko.warehouse.boxes:
+                elif (w_x0, w_y1) in boxes:
                     s_x0, s_y0 = w_x0, w_y1
                     s_y1 = s_y0 + 1
-                    if (s_x0, s_y1) in soko.warehouse.walls or (s_x0, s_y1) in soko.warehouse.boxes:
+                    if (s_x0, s_y1) in walls or (s_x0, s_y1) in boxes:
                         return "Failure"
                     else:
-                        # move the box left
-                        soko.warehouse.moveDown()
-                        # move the worker left
-                        soko.warehouse.pushBoxDown(s_x0, s_y0)
+                        w_y = w_y1
+                        boxes[boxes.index((s_x0, s_y0))] = (s_x0, s_y1)
+
                 else:
-                    soko.warehouse.moveDown()
+                    w_y = w_y1
+
 
                 # print soko.warehouse.visualize()
             elif action is "Up":
                 w_y1 = w_y0 - 1
-                if (w_x0, w_y1) in soko.warehouse.walls:
+                if (w_x0, w_y1) in walls:
                     return "Failure"
-                elif (w_x0, w_y1) in soko.warehouse.boxes:
+                elif (w_x0, w_y1) in boxes:
                     s_x0, s_y0 = w_x0, w_y1
                     s_y1 = s_y0 - 1
-                    if (s_x0, s_y1) in soko.warehouse.walls or (s_x0, s_y1) in soko.warehouse.boxes:
+                    if (s_x0, s_y1) in walls or (s_x0, s_y1) in boxes:
                         return "Failure"
                     else:
-                        soko.warehouse.moveUp()
-                        soko.warehouse.pushBoxUp(s_x0, s_y0)
+                        w_y = w_y1
+                        boxes[boxes.index((s_x0, s_y0))] = (s_x0, s_y1)
                 else:
-                    soko.warehouse.moveUp()
-                # print soko.warehouse.visualize()
+                    w_y = w_y1
             else:
-                print "badaction"
-            print soko.warehouse.visualize()
+                raise ValueError("Invalid action given")
+        soko.warehouse.worker = (w_x, w_y)
+        soko.warehouse.boxes = boxes
+        return soko.warehouse.visualize()
 
 
 
@@ -358,7 +307,6 @@ def tabooCells(puzzleFileName):
                         bounded_lower_wall = False
                     if (pos, row) in s.warehouse.targets:  # target in segment, don't taboo it
                         target_in_segment = True
-                        print "BOUNDED SEGMENT", (pos, row)
 
                 if (bounded_upper_wall or bounded_lower_wall) and not target_in_segment:
                     for pos in segment:
@@ -383,7 +331,6 @@ def tabooCells(puzzleFileName):
                 return "\n".join(["".join(line) for line in vis])
 
             taboo_with_targets = [t for t in taboo if t not in s.warehouse.targets]
-            print taboo_with_targets
         return visualize_taboo_cells(s.warehouse.walls, s.warehouse.targets, s.warehouse.boxes, taboo_with_targets)
 
 
