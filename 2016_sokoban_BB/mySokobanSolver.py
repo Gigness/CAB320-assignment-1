@@ -1,11 +1,11 @@
-import cab320_search
+from cab320_search import iterative_deepening_search, Problem
 
 import cab320_sokoban
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-class SokobanPuzzle(cab320_search.Problem):
+class SokobanPuzzle(Problem):
     """
     Class to represent a Sokoban puzzle.
     Your implementation should be compatible with the
@@ -21,6 +21,7 @@ class SokobanPuzzle(cab320_search.Problem):
         # Worker at 0 tuple pos
         initial.insert(0, self.warehouse.worker)
         self.initial = tuple(initial)
+        self.taboo = self.getTabooCells()
 
     def goal_test(self, state):
         """
@@ -52,13 +53,12 @@ class SokobanPuzzle(cab320_search.Problem):
         w_y_down = w_y + 1
 
         # check if left move is legal
-
-        if (w_x_left, w_y) not in self.warehouse.walls:
-            if (w_x_left, w_y) in state:
-                # box is in new position
+        if (w_x_left, w_y) not in self.warehouse.walls:  # no walls
+            if (w_x_left, w_y) in state:  # box in new position?
                 (b_x, b_y) = (w_x_left, w_y)
                 b_x_left = b_x - 1
-                if (b_x_left, b_y) not in self.warehouse.walls and (b_x_left, b_y) not in state:
+                if (b_x_left, b_y) not in self.warehouse.walls and (b_x_left, b_y) not in state\
+                        and (b_x_left, b_y) not in self.taboo:  # box not pushed in taboo/wall/another_box
                     actions.append('Left')
             else:
                 actions.append('Left')
@@ -66,7 +66,8 @@ class SokobanPuzzle(cab320_search.Problem):
             if (w_x_right, w_y) in state:
                 (b_x, b_y) = (w_x_right, w_y)
                 b_x_right = b_x + 1
-                if (b_x_right, b_y) not in self.warehouse.walls and (b_x_right, b_y) not in state:
+                if (b_x_right, b_y) not in self.warehouse.walls and (b_x_right, b_y) not in state\
+                        (b_x_right, b_y) not in self.taboo:
                     actions.append('Right')
             else:
                 actions.append('Right')
@@ -74,7 +75,8 @@ class SokobanPuzzle(cab320_search.Problem):
             if (w_x, w_y_down) in state:
                 (b_x, b_y) = (w_x, w_y_down)
                 b_y_down = b_y + 1
-                if (b_x, b_y_down) not in self.warehouse.walls and (b_x, b_y_down) not in state:
+                if (b_x, b_y_down) not in self.warehouse.walls and (b_x, b_y_down) not in state\
+                        (b_x, b_y_down) not in self.taboo:
                     actions.append('Down')
             else:
                 actions.append('Down')
@@ -82,7 +84,8 @@ class SokobanPuzzle(cab320_search.Problem):
             if (w_x, w_y_up) in state:
                 (b_x, b_y) = (w_x, w_y_up)
                 b_y_up = b_y - 1
-                if (b_x, b_y_up) not in self.warehouse.walls and (b_x, b_y_up) not in state:
+                if (b_x, b_y_up) not in self.warehouse.walls and (b_x, b_y_up) not in state\
+                        (b_x, b_y_up) not in self.taboo:
                     actions.append('Up')
             else:
                 actions.append('Up')
@@ -127,7 +130,78 @@ class SokobanPuzzle(cab320_search.Problem):
         goalState = self.warehouse.visualize()
         goalState = goalState.replace("$", " ").replace(".", "*").replace("@", " ")
         return goalState
+
+    def getTabooCells(self):
+        walls_y = [b for (a,b) in self.warehouse.walls]
+        wall_y_start = min(walls_y)
+        wall_y_end = max(walls_y)
+        taboo = list()
+
+        for row in xrange(wall_y_start + 1, wall_y_end):
+
+            # get the walls above, below and on the current row
+            row_above_walls = [a for (a,b) in self.warehouse.walls if b == row - 1]
+            row_below_walls = [a for (a,b) in self.warehouse.walls if b == row + 1]
+            row_current_walls = [a for (a,b) in self.warehouse.walls if b == row]
+
+            # determine which pos can be accessed by boxes
+            accessible_cells = list()
+
+            # determine accessible warehouse positions
+            for pos in xrange(row_current_walls[0],row_current_walls[-1] + 1):
+                if pos not in row_current_walls:
+                    if accessible_cells:  # not empty list
+                        if (accessible_cells[-1] != '*') and ((pos - accessible_cells[-1]) != 1):
+                            accessible_cells.append('*')
+                        accessible_cells.append(pos)
+                    else:
+                        accessible_cells.append(pos)
+
+            # process the accessible cells sub lists of continuous accessible cells
+            accessible_segments = [[]]
+            segment = 0
+
+            for cell in accessible_cells:
+                if cell == '*':
+                    accessible_segments.append([])
+                    segment += 1
+                else:
+                    accessible_segments[segment].append(cell)
+
+            # check if any of the segments are empty, this is bad
+            for segment in accessible_segments:
+                if not segment:
+                    raise ValueError("accessible segment is empty")
+
+            # Begin determining taboo cells
+            # Check if the cells are bounded by a U shape
+            for segment in accessible_segments:
+                bounded_upper_wall = True
+                bounded_lower_wall = True
+                target_in_segment = False  # Check if there is a target in segment
+                for pos in segment:
+                    if pos not in row_above_walls:
+                        bounded_upper_wall = False
+                    if pos not in row_below_walls:
+                        bounded_lower_wall = False
+                    if (pos, row) in self.warehouse.targets:  # target in segment, don't taboo it
+                        target_in_segment = True
+
+                if (bounded_upper_wall or bounded_lower_wall) and not target_in_segment:
+                    for pos in segment:
+                        taboo.append((pos, row))
+                else:
+                    for pos in segment:
+                        if ((pos - 1) in row_current_walls or (pos + 1) in row_current_walls) and (pos in
+                        row_below_walls or pos in row_above_walls):
+                            taboo.append((pos, row))
+
+            taboo_with_targets = [t for t in taboo if t not in self.warehouse.targets]
+
+        return taboo_with_targets
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 
 def checkActions(puzzleFileName, actionSequence):
         """
@@ -234,7 +308,6 @@ def checkActions(puzzleFileName, actionSequence):
         return soko.warehouse.visualize()
 
 
-
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 def tabooCells(puzzleFileName):
@@ -329,8 +402,8 @@ def tabooCells(puzzleFileName):
                 for (x,y) in taboo:
                     vis[y][x] = "X"
                 return "\n".join(["".join(line) for line in vis])
-
             taboo_with_targets = [t for t in taboo if t not in s.warehouse.targets]
+
         return visualize_taboo_cells(s.warehouse.walls, s.warehouse.targets, s.warehouse.boxes, taboo_with_targets)
 
 
@@ -354,9 +427,12 @@ def solveSokoban_elementary(puzzleFileName, timeLimit = None):
                 For example, ['Left', 'Down', Down','Right', 'Up', 'Down']
                 If the puzzle is already in a goal state, simply return []
         """
-        raise NotImplementedError()
+        soko_problem = SokobanPuzzle(puzzleFileName)
+
+        return iterative_deepening_search(soko_problem)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 
 def solveSokoban_macro(puzzleFileName, timeLimit = None):
         """
