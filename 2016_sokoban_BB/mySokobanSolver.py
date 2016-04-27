@@ -1,4 +1,4 @@
-from cab320_search import iterative_deepening_search, Problem
+from cab320_search import iterative_deepening_search, Problem, uniform_cost_search, astar_search, iterative_deepening_search
 
 import cab320_sokoban
 
@@ -51,7 +51,6 @@ class SokobanPuzzle(Problem):
         w_x_right = w_x + 1
         w_y_up = w_y - 1
         w_y_down = w_y + 1
-
         # check if left move is legal
         if (w_x_left, w_y) not in self.warehouse.walls:  # no walls
             if (w_x_left, w_y) in state:  # box in new position?
@@ -67,7 +66,7 @@ class SokobanPuzzle(Problem):
                 (b_x, b_y) = (w_x_right, w_y)
                 b_x_right = b_x + 1
                 if (b_x_right, b_y) not in self.warehouse.walls and (b_x_right, b_y) not in state\
-                        (b_x_right, b_y) not in self.taboo:
+                        and (b_x_right, b_y) not in self.taboo:
                     actions.append('Right')
             else:
                 actions.append('Right')
@@ -76,7 +75,7 @@ class SokobanPuzzle(Problem):
                 (b_x, b_y) = (w_x, w_y_down)
                 b_y_down = b_y + 1
                 if (b_x, b_y_down) not in self.warehouse.walls and (b_x, b_y_down) not in state\
-                        (b_x, b_y_down) not in self.taboo:
+                        and (b_x, b_y_down) not in self.taboo:
                     actions.append('Down')
             else:
                 actions.append('Down')
@@ -85,7 +84,7 @@ class SokobanPuzzle(Problem):
                 (b_x, b_y) = (w_x, w_y_up)
                 b_y_up = b_y - 1
                 if (b_x, b_y_up) not in self.warehouse.walls and (b_x, b_y_up) not in state\
-                        (b_x, b_y_up) not in self.taboo:
+                        and (b_x, b_y_up) not in self.taboo:
                     actions.append('Up')
             else:
                 actions.append('Up')
@@ -199,6 +198,58 @@ class SokobanPuzzle(Problem):
             taboo_with_targets = [t for t in taboo if t not in self.warehouse.targets]
 
         return taboo_with_targets
+
+    def path_cost(self, c, state1, action, state2):
+        return c + 1
+
+    def print_solution(self, goal_node):
+        actions = []
+        if goal_node == None:
+            print "No solution found"
+        elif goal_node == 'cuttoff':
+            print "cuttoff"
+        else:
+            # path is list of nodes from initial state (root of the tree)
+            # to the goal_node
+            path = goal_node.path()
+            # print the solution
+            print "Solution takes {0} steps from the initial state".format(len(path)-1)
+            print path[0].state
+            print "to the goal state"
+            print path[-1].state
+            print "\nBelow is the sequence of moves\n"
+            for node in path:
+                if node.action is not None:
+                    print "{0}".format(node.action)
+                # print node.state, " path_cost: ", node.path_cost
+                    actions.append(node.action)
+            return actions
+
+    def h(self, node):
+        """
+        Manhattan distances for boxes to targets
+        :param node:
+        :return:
+        """
+
+        dist = 0
+        for i in xrange(len(self.warehouse.boxes)):
+            dist_each_box = []
+            for j in xrange(len(self.warehouse.targets)):
+                b_x, b_y = self.warehouse.boxes[i]
+                t_x, t_y = self.warehouse.targets[j]
+                dist_to_box = abs(b_x - t_x) + abs(b_y - t_y)
+                dist_each_box.append(dist_to_box)
+            dist += min(dist_each_box)
+        return dist
+
+        # dist = 0
+        # for i in xrange(len(self.warehouse.boxes)):
+        #         b_x, b_y = self.warehouse.boxes[i]
+        #         t_x, t_y = self.warehouse.targets[i]
+        #         dist_to_box = abs(b_x - t_x) + abs(b_y - t_y)
+        #         dist += dist_to_box
+        # return dist
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -429,10 +480,13 @@ def solveSokoban_elementary(puzzleFileName, timeLimit = None):
         """
         soko_problem = SokobanPuzzle(puzzleFileName)
 
-        return iterative_deepening_search(soko_problem)
-
+        answer = astar_search(soko_problem)
+        return answer
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
+def testSolver(puzzleFileName):
+    soko_problem = SokobanPuzzle(puzzleFileName)
+    answer = iterative_deepening_search(soko_problem)
+    return answer
 
 def solveSokoban_macro(puzzleFileName, timeLimit = None):
         """

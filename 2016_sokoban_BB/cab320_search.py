@@ -399,6 +399,7 @@ def uniform_cost_search(problem):
     """[Fig. 3.14]"""
     return best_first_graph_search(problem, lambda node: node.path_cost)
 
+
 def depth_limited_search(problem, limit=50):
     """[Fig. 3.17]"""
 
@@ -453,12 +454,17 @@ def astar1_search(problem, h):
 
     return best_first_graph_search(problem, f_astar)
 
-def iterative_deepening_astar_search(problem):
+
+def astar_limited_search(problem, limit, h=None):
+    # set up heuristic
+    h = memoize(h or problem.h)
+    # astar cost
+    f = lambda n: n.path_cost + h(n)
 
     def recursive_astar_search(node, problem, limit):
         if problem.goal_test(node.state):
             return node
-        elif node.depth == limit:
+        elif f(node) > limit:  # we care about the node's F(s) value
             return 'cutoff'
         else:
             cutoff_occurred = False
@@ -477,6 +483,38 @@ def iterative_deepening_astar_search(problem):
     # Body of depth_limited_search:
     return recursive_astar_search(Node(problem.initial), problem, limit)
 
+
+def ida_star(problem, h=None):
+    h = memoize(h or problem.h)
+    f = lambda n: (n.path_cost + h(n))
+    bound = f(Node(problem.initial))
+
+
+
+def recursive_astar(node, problem, bound):
+    h = memoize(problem.h)
+    f = lambda n: (n.path_cost + h(n))
+    min_bound = float('infinity')
+
+    if problem.goal_test(node.state):
+        return node  # found solution
+    elif f(node) > bound:
+        return f(node)  # return the new bound
+    else:
+        cutoff_occurred = False
+        for child in node.expand(problem):
+            result = recursive_astar(child, problem, bound)
+            if isinstance(result, (int, long)):
+                cutoff_occurred = True
+                if result < min_bound:
+                    min_bound = result
+            elif result is not None:
+                return result  # its a goal
+
+        if cutoff_occurred:
+            return min
+        else:
+            return None
 
 
 #______________________________________________________________________________
