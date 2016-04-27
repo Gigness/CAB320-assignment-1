@@ -1,4 +1,4 @@
-from cab320_search import iterative_deepening_search, Problem, uniform_cost_search, astar_search, iterative_deepening_search
+from cab320_search import iterative_deepening_search, Problem, ida_star_search_elementary, astar_search, ida_star_search, iterative_deepening_search
 
 import cab320_sokoban
 
@@ -91,6 +91,24 @@ class SokobanPuzzle(Problem):
 
         return actions
 
+    def macro_actions(self, state):
+        #   @TODO check if worker is near a box
+        state = list(state)
+        (w_x, w_y) = state.pop(0)
+        perform_macro = True
+        for (b_x, b_y) in state:
+            if (abs(w_x - b_x) == 1 and w_y == b_y) or (abs(w_y - b_y) == 1 and w_x == b_x):
+                perform_macro = False
+
+        if perform_macro:
+            # @TODO which boxes should we move the worker next to?
+            
+            # @TODO What positions should the worker be moved to
+
+            # @TODO what actions do we take to move the worker to that position
+
+
+
     def result(self, state, action):
         # convert state to list, separate worker form boxes
         state = list(state)
@@ -122,6 +140,8 @@ class SokobanPuzzle(Problem):
                 (b_x, b_y) = (w_x, w_y1)
                 state[state.index((b_x, b_y))] = (b_x, b_y - 1)  # Move pushed box left
             state.insert(0, (w_x, w_y1))
+        elif isinstance(action, list):  # We have a macro action
+            print "macro action detected" # @TODO Macro action
         return tuple(state)
 
     def getGoalState(self):
@@ -231,7 +251,6 @@ class SokobanPuzzle(Problem):
         :param node:
         :return:
         """
-
         dist = 0
         for i in xrange(len(self.warehouse.boxes)):
             dist_each_box = []
@@ -480,7 +499,7 @@ def solveSokoban_elementary(puzzleFileName, timeLimit = None):
         """
         soko_problem = SokobanPuzzle(puzzleFileName)
 
-        answer = astar_search(soko_problem)
+        answer = ida_star_search(soko_problem)
         return answer
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 def testSolver(puzzleFileName):

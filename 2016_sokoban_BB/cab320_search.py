@@ -448,28 +448,32 @@ def astar_search(problem, h=None):
     h = memoize(h or problem.h)
     return best_first_graph_search(problem, lambda n: n.path_cost + h(n))
 
-def astar1_search(problem, h):
-    mem_h = memoize(h)
-    f_astar = lambda node: node.path_cost + mem_h(tuple(node.state))
+def ida_star_search_elementary(problem):
 
-    return best_first_graph_search(problem, f_astar)
+    for f_val in xrange(sys.maxint):
+        result = a_star_limited_search(problem, f_val)
+        if result != 'cutoff':
+            return result
 
 
-def astar_limited_search(problem, limit, h=None):
-    # set up heuristic
-    h = memoize(h or problem.h)
-    # astar cost
-    f = lambda n: n.path_cost + h(n)
+def a_star_limited_search(problem, f_val=50):
+    """
+    Elementary solve a star, where fbound is simply increased by 1
+    """
 
-    def recursive_astar_search(node, problem, limit):
+    h = memoize(problem.h)
+    f = (lambda node: node.path_cost + h(node))
+
+    def recursive_a_star(node, problem, f_val):
+        print "f(", node, ") ", f(node), " , f_val: ", f_val
         if problem.goal_test(node.state):
             return node
-        elif f(node) > limit:  # we care about the node's F(s) value
+        elif f(node) >= f_val:
             return 'cutoff'
         else:
             cutoff_occurred = False
             for child in node.expand(problem):
-                result = recursive_astar_search(child, problem, limit)
+                result = recursive_a_star(child, problem, f_val)
                 if result == 'cutoff':
                     cutoff_occurred = True
                 elif result is not None:
@@ -481,40 +485,54 @@ def astar_limited_search(problem, limit, h=None):
                 return None
 
     # Body of depth_limited_search:
-    return recursive_astar_search(Node(problem.initial), problem, limit)
+    return recursive_a_star(Node(problem.initial), problem, f_val)
 
 
-def ida_star(problem, h=None):
-    h = memoize(h or problem.h)
-    f = lambda n: (n.path_cost + h(n))
-    bound = f(Node(problem.initial))
+def ida_star_search(problem):
+    def a_star_bounded_search(node, bound):
+        f_val = f(node)
+        print node, " f: ", f_val, " , bound: ", bound
 
+        if f_val > bound:
+            return f_val
+        elif problem.goal_test(node.state):
+            return node
 
+        f_min = float('inf')
 
-def recursive_astar(node, problem, bound):
-    h = memoize(problem.h)
-    f = lambda n: (n.path_cost + h(n))
-    min_bound = float('infinity')
-
-    if problem.goal_test(node.state):
-        return node  # found solution
-    elif f(node) > bound:
-        return f(node)  # return the new bound
-    else:
-        cutoff_occurred = False
         for child in node.expand(problem):
-            result = recursive_astar(child, problem, bound)
-            if isinstance(result, (int, long)):
-                cutoff_occurred = True
-                if result < min_bound:
-                    min_bound = result
-            elif result is not None:
-                return result  # its a goal
+            result = a_star_bounded_search(child, bound)
+            if isinstance(result, int):  # f bound surpassed
+                if result < f_min:
+                    f_min = result
+            elif result is not None:  # found a goal
+                return result
 
-        if cutoff_occurred:
-            return min
-        else:
+        return f_min
+
+    h = memoize(problem.h)
+    f = (lambda node: node.path_cost + h(node))
+
+    root = Node(problem.initial)
+    bound = f(root)
+
+    while True:
+        result = a_star_bounded_search(root, bound)
+        if result == float('inf'):  # no solution exists
             return None
+        elif isinstance(result, int):
+            bound = result
+        else:
+            return result
+
+
+
+
+
+
+
+
+
 
 
 #______________________________________________________________________________
