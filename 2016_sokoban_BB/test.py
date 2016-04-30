@@ -31,9 +31,13 @@ t = tabooCells(path + "/warehouse_03.txt")
 # ida star
 
 t0 = time.time()
+
 sol = solveSokoban_elementary(path + "/warehouse_03.txt")
+
 t1 = time.time()
+
 actions = s.print_solution(sol)
+
 print checkActions(path + "/warehouse_03.txt", actions)
 print "Solver took ", t1-t0, " seconds"
 

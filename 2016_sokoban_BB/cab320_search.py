@@ -491,7 +491,7 @@ def a_star_limited_search(problem, f_val=50):
 def ida_star_search(problem):
     def a_star_bounded_search(node, bound):
         f_val = f(node)
-        print node, " f: ", f_val, " , bound: ", bound
+        # print node, " f: ", f_val, " , bound: ", bound
 
         if f_val > bound:
             return f_val
@@ -517,6 +517,47 @@ def ida_star_search(problem):
     bound = f(root)
 
     while True:
+        result = a_star_bounded_search(root, bound)
+        if result == float('inf'):  # no solution exists
+            return None
+        elif isinstance(result, int):
+            bound = result
+        else:
+            return result
+
+
+def ida_star_search_limited(problem, limit):
+
+    def a_star_bounded_search(node, bound):
+        f_val = f(node)
+        # print node, " f: ", f_val, " , bound: ", bound
+
+        if f_val > bound:
+            # print "cutoff"
+            return f_val
+        elif problem.goal_test(node.state):
+            return node
+
+        f_min = float('inf')
+
+        for child in node.expand(problem):
+            result = a_star_bounded_search(child, bound)
+            if isinstance(result, int):  # f bound surpassed
+                if result < f_min:
+                    f_min = result
+            elif result is not None:  # found a goal
+                return result
+
+        return f_min
+
+    h = memoize(problem.h)
+    f = (lambda node: node.path_cost + h(node))
+
+    root = Node(problem.initial)
+    bound = f(root)
+
+    while bound < limit:
+
         result = a_star_bounded_search(root, bound)
         if result == float('inf'):  # no solution exists
             return None

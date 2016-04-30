@@ -1,4 +1,5 @@
-from cab320_search import iterative_deepening_search, Problem, ida_star_search_elementary, astar_search, ida_star_search, iterative_deepening_search
+from cab320_search import iterative_deepening_search, Problem, ida_star_search_elementary,\
+    astar_search, ida_star_search, iterative_deepening_search, ida_star_search_limited
 
 import cab320_sokoban
 
@@ -90,24 +91,6 @@ class SokobanPuzzle(Problem):
                 actions.append('Up')
 
         return actions
-
-    def macro_actions(self, state):
-        #   @TODO check if worker is near a box
-        state = list(state)
-        (w_x, w_y) = state.pop(0)
-        perform_macro = True
-        for (b_x, b_y) in state:
-            if (abs(w_x - b_x) == 1 and w_y == b_y) or (abs(w_y - b_y) == 1 and w_x == b_x):
-                perform_macro = False
-
-        if perform_macro:
-            # @TODO which boxes should we move the worker next to?
-            
-            # @TODO What positions should the worker be moved to
-
-            # @TODO what actions do we take to move the worker to that position
-
-
 
     def result(self, state, action):
         # convert state to list, separate worker form boxes
@@ -269,6 +252,74 @@ class SokobanPuzzle(Problem):
         #         dist_to_box = abs(b_x - t_x) + abs(b_y - t_y)
         #         dist += dist_to_box
         # return dist
+
+
+class SokobanPuzzleMacro(SokobanPuzzle):
+    def actions(self, state):
+        state = list(state)
+        actions = list()
+
+        (w_x, w_y) = state.pop(0)
+        w_x_left = w_x - 1
+        w_x_right = w_x + 1
+        w_y_up = w_y - 1
+        w_y_down = w_y + 1
+
+        perform_macro = True
+
+        # @TODO is worker near box?
+        for (b_x, b_y) in state:
+            if (abs(w_x - b_x) == 1 and w_y == b_y) or (abs(w_y - b_y) == 1 and w_x == b_x):
+                # Can the box be moved?
+
+                
+                perform_macro = False
+
+        if perform_macro:
+            pass
+            # @TODO which boxes should we move the worker next to?
+
+            # @TODO What positions should the worker be moved to
+
+            # @TODO what actions do we take to move the worker to that position
+        else:  # Normal action
+            if (w_x_left, w_y) not in self.warehouse.walls:  # no walls
+                if (w_x_left, w_y) in state:  # box in new position?
+                    (b_x, b_y) = (w_x_left, w_y)
+                    b_x_left = b_x - 1
+                    if (b_x_left, b_y) not in self.warehouse.walls and (b_x_left, b_y) not in state\
+                            and (b_x_left, b_y) not in self.taboo:  # box not pushed in taboo/wall/another_box
+                        actions.append('Left')
+                else:
+                    actions.append('Left')
+            if (w_x_right, w_y) not in self.warehouse.walls:
+                if (w_x_right, w_y) in state:
+                    (b_x, b_y) = (w_x_right, w_y)
+                    b_x_right = b_x + 1
+                    if (b_x_right, b_y) not in self.warehouse.walls and (b_x_right, b_y) not in state\
+                            and (b_x_right, b_y) not in self.taboo:
+                        actions.append('Right')
+                else:
+                    actions.append('Right')
+            if (w_x, w_y_down) not in self.warehouse.walls:
+                if (w_x, w_y_down) in state:
+                    (b_x, b_y) = (w_x, w_y_down)
+                    b_y_down = b_y + 1
+                    if (b_x, b_y_down) not in self.warehouse.walls and (b_x, b_y_down) not in state\
+                            and (b_x, b_y_down) not in self.taboo:
+                        actions.append('Down')
+                else:
+                    actions.append('Down')
+            if (w_x, w_y_up) not in self.warehouse.walls:
+                if (w_x, w_y_up) in state:
+                    (b_x, b_y) = (w_x, w_y_up)
+                    b_y_up = b_y - 1
+                    if (b_x, b_y_up) not in self.warehouse.walls and (b_x, b_y_up) not in state\
+                            and (b_x, b_y_up) not in self.taboo:
+                        actions.append('Up')
+                else:
+                    actions.append('Up')
+
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -499,7 +550,7 @@ def solveSokoban_elementary(puzzleFileName, timeLimit = None):
         """
         soko_problem = SokobanPuzzle(puzzleFileName)
 
-        answer = ida_star_search(soko_problem)
+        answer = ida_star_search_limited(soko_problem, 40)
         return answer
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 def testSolver(puzzleFileName):
