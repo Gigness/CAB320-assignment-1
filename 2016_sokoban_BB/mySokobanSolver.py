@@ -125,8 +125,6 @@ class SokobanPuzzle(Problem):
                 (b_x, b_y) = (w_x, w_y1)
                 state[state.index((b_x, b_y))] = (b_x, b_y - 1)  # Move pushed box left
             state.insert(0, (w_x, w_y1))
-        elif isinstance(action, list):  # We have a macro action
-            print "macro action detected" # @TODO Macro action
         return tuple(state)
 
     def getGoalState(self):
@@ -326,17 +324,6 @@ class SokobanPuzzle(Problem):
 
 class SokobanPuzzleMacro(SokobanPuzzle):
 
-    # def __get_adjacent_box__(self, w_x, w_y, state_of_boxes):
-    #     for b_x, b_y in state_of_boxes:
-    #         if w_x == b_x:
-    #             if abs(w_y - b_y) == 1:
-    #                 # the box is adjacent to the worker (either above or below)
-    #                 return b_x, b_y
-    #         if w_y == b_y:
-    #             if abs(w_x - b_x) == 1:
-    #                 # the box is adjacent to the worker (left or right)
-    #                 return b_x, b_y
-
     def worker_adjacent_to_move_able_box(self, worker, state_of_boxes):
         """
         Is the worker near a moveable box?
@@ -353,6 +340,9 @@ class SokobanPuzzleMacro(SokobanPuzzle):
         w_y_up = w_y - 1
         w_y_down = w_y + 1
 
+        # meaningful action means a box is being moved
+        meaningful_actions = []
+
         # left of worker has a box
         if (w_x_left, w_y) in state_of_boxes:
             # check if that box can be moved
@@ -360,6 +350,7 @@ class SokobanPuzzleMacro(SokobanPuzzle):
             b_y = w_y
             if (b_x_left, b_y) not in self.warehouse.walls and (b_x_left, b_y) not in state_of_boxes\
                     and (b_x_left, b_y) not in self.taboo:
+                # meaningful_actions.append("Left")
                 return True
         if (w_x_right, w_y) in state_of_boxes:
             # check if that box can be moved
@@ -367,6 +358,7 @@ class SokobanPuzzleMacro(SokobanPuzzle):
             b_y = w_y
             if (b_x_right, b_y) not in self.warehouse.walls and (b_x_right, b_y) not in state_of_boxes\
                     and (b_x_right, b_y) not in self.taboo:
+                # meaningful_actions.append("Right")
                 return True
         if (w_x, w_y_up) in state_of_boxes:
             # check if that box can be moved
@@ -374,6 +366,7 @@ class SokobanPuzzleMacro(SokobanPuzzle):
             b_y_up = w_y_up - 1
             if (b_x, b_y_up) not in self.warehouse.walls and (b_x, b_y_up) not in state_of_boxes\
                     and (b_x, b_y_up) not in self.taboo:
+                # meaningful_actions.append("Up")
                 return True
         if (w_x, w_y_down) in state_of_boxes:
             # check if that box can be moved
@@ -381,16 +374,23 @@ class SokobanPuzzleMacro(SokobanPuzzle):
             b_y_down = w_y_down + 1
             if (b_x, b_y_down) not in self.warehouse.walls and (b_x, b_y_down) not in state_of_boxes\
                     and (b_x, b_y_down) not in self.taboo:
+                # meaningful_actions.append("Down")
                 return True
         return False
+        # return meaningful_actions
 
-    def get_macro_end_points(self, (b_x, b_y), (w_x, w_y), state):
+    def get_macro_end_points(self, box, worker, state):
         """
 
         :param state:
-        :param (b_x, b_y): coords of a moveable box
+        :param box: coords of a moveable box
+        :param worker: coords of the worker
         :return: list of coords for a worker to move to in order to start moving this box
         """
+
+        b_x, b_y = box
+        w_x, w_y = worker
+
         b_x_left = b_x - 1
         b_x_right = b_x + 1
         b_y_up = b_y - 1
@@ -429,14 +429,15 @@ class SokobanPuzzleMacro(SokobanPuzzle):
                         macro_end_point.append((b_x, b_y_down))
         return macro_end_point
 
-    def worker_to_macro_end_point(self, macro_end_point, worker, state):
+    def get_macro_actions_list(self, macro_end_point, worker, state):
         """
         Solves a sub problem, using astar
 
         :param state: current state of the warehouse
         :return: list of actions
         """
-        pass
+        sub_problem = ShortestPath(worker, self.warehouse.walls, state, macro_end_point)
+        return astar_search(sub_problem)
 
     def actions(self, state):
         """
@@ -449,22 +450,135 @@ class SokobanPuzzleMacro(SokobanPuzzle):
         actions = list()
 
         w_x, w_y = state.pop(0)
-        w_x_left = w_x - 1
-        w_x_right = w_x + 1
-        w_y_up = w_y - 1
-        w_y_down = w_y + 1
 
-        require_macro_action = self.worker_adjacent_to_move_able_box((w_x, w_y), state)
+        actions_move_boxes = self.worker_adjacent_to_move_able_box((w_x, w_y), state)
 
-        if require_macro_action:
-            pass
-        else:
-            pass
+        if not actions_move_boxes:
+            for box in state:
+                macro_end_points = self.get_macro_end_points(box, (w_x, w_y), state)
+                # solve the sub problem to get to each macro end point
+                if macro_end_points:
+                    for target_loc in macro_end_points:
+                        macro_action = self.get_macro_actions_list(target_loc, (w_x, w_y), state)
+                        if macro_action is not None:
+                            actions.append(self.unpack_macro_action(macro_action))
+        else:  # we are adjacent to a box which is move able to a legal position
+            # We only care about moving the box
+            # ^^^ dangerous logic up here, miss out on essential paths to solving the problem
+            w_x_left = w_x - 1
+            w_x_right = w_x + 1
+            w_y_up = w_y - 1
+            w_y_down = w_y + 1
+
+            if (w_x_left, w_y) not in self.warehouse.walls:  # no walls
+                if (w_x_left, w_y) in state:  # box in new position?
+                    (b_x, b_y) = (w_x_left, w_y)
+                    b_x_left = b_x - 1
+                    if (b_x_left, b_y) not in self.warehouse.walls and (b_x_left, b_y) not in state\
+                            and (b_x_left, b_y) not in self.taboo:  # box not pushed in taboo/wall/another_box
+                        actions.append('Left')
+                else:
+                    actions.append('Left')
+            if (w_x_right, w_y) not in self.warehouse.walls:
+                if (w_x_right, w_y) in state:
+                    (b_x, b_y) = (w_x_right, w_y)
+                    b_x_right = b_x + 1
+                    if (b_x_right, b_y) not in self.warehouse.walls and (b_x_right, b_y) not in state\
+                            and (b_x_right, b_y) not in self.taboo:
+                        actions.append('Right')
+                else:
+                    actions.append('Right')
+            if (w_x, w_y_down) not in self.warehouse.walls:
+                if (w_x, w_y_down) in state:
+                    (b_x, b_y) = (w_x, w_y_down)
+                    b_y_down = b_y + 1
+                    if (b_x, b_y_down) not in self.warehouse.walls and (b_x, b_y_down) not in state\
+                            and (b_x, b_y_down) not in self.taboo:
+                        actions.append('Down')
+                else:
+                    actions.append('Down')
+            if (w_x, w_y_up) not in self.warehouse.walls:
+                if (w_x, w_y_up) in state:
+                    (b_x, b_y) = (w_x, w_y_up)
+                    b_y_up = b_y - 1
+                    if (b_x, b_y_up) not in self.warehouse.walls and (b_x, b_y_up) not in state\
+                            and (b_x, b_y_up) not in self.taboo:
+                        actions.append('Up')
+                else:
+                    actions.append('Up')
+
+        return actions
 
     def result(self, state, action):
-        pass
+        # check for a macro action
+        state = list(state)
+        w_x, w_y = state.pop(0)
+        if isinstance(action, list):
+            for micro_move in action:
+                if micro_move == 'Left':
+                    w_x -= 1
+                elif micro_move == 'Right':
+                    w_x += 1
+                elif micro_move == 'Up':
+                    w_y -= 1
+                elif micro_move == 'Down':
+                    w_y += 1
+                else:
+                    raise ValueError("Invalid Micro Move")
+            state.insert(0, (w_x, w_y))
+        else:
+            # apparently, this is a meaningful move
+            # so the worker will be pushing a box
 
-    def sub_problem_actions(self, node):
+            # box being pushed
+
+            if action == 'Left':
+                w_x1 = w_x - 1
+                if (w_x1, w_y) in state:
+                    (b_x, b_y) = (w_x1, w_y)
+                    state[state.index((b_x, b_y))] = (b_x - 1, b_y)  # Move pushed box left
+                state.insert(0, (w_x1, w_y))
+
+            elif action == 'Right':
+                w_x1 = w_x + 1
+                if (w_x1, w_y) in state:
+                    (b_x, b_y) = (w_x1, w_y)
+                    state[state.index((b_x, b_y))] = (b_x + 1, b_y)  # Move pushed box right
+                state.insert(0, (w_x1, w_y))
+            elif action == 'Down':
+                w_y1 = w_y + 1
+                if (w_x, w_y1) in state:
+                    (b_x, b_y) = (w_x, w_y1)
+                    state[state.index((b_x, b_y))] = (b_x, b_y + 1)  # Move pushed box left
+                state.insert(0, (w_x, w_y1))
+
+            elif action == 'Up':
+                w_y1 = w_y - 1
+                if (w_x, w_y1) in state:
+                    (b_x, b_y) = (w_x, w_y1)
+                    state[state.index((b_x, b_y))] = (b_x, b_y - 1)  # Move pushed box left
+                state.insert(0, (w_x, w_y1))
+            # if action == 'Left':
+            #     w_x -= 1
+            #     # box to be pushed is: w_x, w_y
+            #     state[state.index((w_x, w_y))] = w_x - 1, w_y
+            #
+            # elif action == 'Right':
+            #     w_x += 1
+            #     state[state.index((w_x, w_y))] = w_x + 1, w_y
+            #
+            # elif action == 'Up':
+            #     w_y -= 1
+            #     state[state.index((w_x, w_y))] = w_x, w_y - 1
+            # elif action == 'Down':
+            #     w_y += 1
+            #     state[state.index((w_x, w_y))] = w_x, w_y + 1
+            # else:
+            #     raise ValueError("Invalid Action")
+            # state.insert(0, (w_x, w_y))
+        return tuple(state)
+
+    def unpack_macro_action(self, node):
         """
         Given the solution of a sub problem, return a list of "Macro" actions
         :param node:
@@ -482,6 +596,12 @@ class SokobanPuzzleMacro(SokobanPuzzle):
                 if node.action is not None:
                     actions.append(node.action)
             return actions
+
+    def path_cost(self, c, state1, action, state2):
+        if isinstance(action, list):
+            return len(action) + c
+        return c + 1
+
 
 
 class ShortestPath(Problem):
@@ -888,6 +1008,7 @@ def solveSokoban_macro(puzzleFileName, timeLimit = None):
                 If the puzzle is already in a goal state, simply return []
         """
 
-        raise NotImplementedError()
-
+        soko = SokobanPuzzleMacro(puzzleFileName)
+        answer = astar_search(soko)
+        return answer
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -

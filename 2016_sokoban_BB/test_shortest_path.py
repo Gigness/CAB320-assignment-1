@@ -21,7 +21,7 @@ if True:
     box2 = state[1]
     box3 = state[2]
 
-    target_locations = s1.get_macro_end_points(box3, worker, state)
+    target_locations = s1.get_macro_actions_list(box3, worker, state)
     sub1 = ShortestPath(worker, s1.warehouse.walls, state, target_locations[0])
 
     print "worker: ", worker, ", box1: ", box3, ", target_loc: ", target_locations
