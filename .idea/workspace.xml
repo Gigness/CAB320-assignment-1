@@ -6,6 +6,7 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/2016_sokoban_BB/main.py" afterPath="$PROJECT_DIR$/2016_sokoban_BB/main.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/2016_sokoban_BB/mySokobanSolver.py" afterPath="$PROJECT_DIR$/2016_sokoban_BB/mySokobanSolver.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/2016_sokoban_BB/test.py" afterPath="$PROJECT_DIR$/2016_sokoban_BB/test.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/2016_sokoban_BB/warehouses/warehouse_03.txt" afterPath="$PROJECT_DIR$/2016_sokoban_BB/warehouses/warehouse_03.txt" />
     </list>
     <ignored path="assignment_one.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -25,63 +26,47 @@
     <favorites_list name="assignment_one" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.4539434">
+    <splitter split-orientation="horizontal" split-proportion="0.51757973">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="main.py" pinned="false" current-in-tab="true">
+          <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/main.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.3701016">
-                  <caret line="17" column="44" selection-start-line="17" selection-start-column="44" selection-end-line="17" selection-end-column="44" />
+                <state vertical-scroll-proportion="0.0">
+                  <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
                   <folding>
                     <element signature="e#0#29#0" expanded="true" />
+                    <element signature="e#60#449#0" expanded="false" />
                   </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="mySokobanSolver.py" pinned="false" current-in-tab="false">
+          <file leaf-file-name="mySokobanSolver.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/mySokobanSolver.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0">
-                  <caret line="315" column="0" selection-start-line="315" selection-start-column="0" selection-end-line="315" selection-end-column="0" />
+                <state vertical-scroll-proportion="-0.03846154">
+                  <caret line="386" column="28" selection-start-line="386" selection-start-column="28" selection-end-line="386" selection-end-column="28" />
                   <folding>
+                    <element signature="e#319#13210#0" expanded="false" />
                     <element signature="e#319#475#1" expanded="false" />
                     <element signature="e#525#940#0" expanded="false" />
                     <element signature="e#982#1387#0" expanded="false" />
                     <element signature="e#982#1166#1" expanded="false" />
-                    <element signature="e#1427#3766#0" expanded="false" />
+                    <element signature="e#1427#3765#0" expanded="false" />
                     <element signature="e#1427#1652#1" expanded="false" />
-                    <element signature="e#3813#5165#0" expanded="false" />
-                    <element signature="e#5203#5360#0" expanded="false" />
-                    <element signature="e#5399#11305#0" expanded="false" />
-                    <element signature="e#11367#11379#0" expanded="false" />
-                    <element signature="e#11430#12277#0" expanded="false" />
-                    <element signature="e#12344#12517#0" expanded="false" />
-                    <element signature="e#12344#12517#2" expanded="false" />
-                    <element signature="e#13632#14021#0" expanded="false" />
-                    <element signature="e#14109#14290#1" expanded="false" />
-                    <element signature="e#18193#19210#1" expanded="false" />
-                    <element signature="e#22428#29628#0" expanded="false" />
-                    <element signature="e#22428#23129#1" expanded="false" />
-                    <element signature="e#29018#29431#0" expanded="false" />
-                    <element signature="e#29783#30701#0" expanded="false" />
-                    <element signature="e#29783#30581#1" expanded="false" />
-                    <element signature="e#30818#30934#0" expanded="false" />
-                    <element signature="e#31002#32162#0" expanded="false" />
-                    <element signature="e#31002#32043#1" expanded="false" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="cab320_search.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/cab320_search.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-13.814815">
-                  <caret line="390" column="25" selection-start-line="390" selection-start-column="25" selection-end-line="390" selection-end-column="25" />
-                  <folding>
-                    <element signature="e#2824#3913#0" expanded="false" />
+                    <element signature="e#3812#5164#0" expanded="false" />
+                    <element signature="e#5202#5359#0" expanded="false" />
+                    <element signature="e#5398#11304#0" expanded="false" />
+                    <element signature="e#11366#11378#0" expanded="false" />
+                    <element signature="e#11429#12276#0" expanded="false" />
+                    <element signature="e#12343#12516#0" expanded="false" />
+                    <element signature="e#12343#12516#2" expanded="false" />
+                    <element signature="e#12549#13210#0" expanded="false" />
+                    <element signature="e#12549#12651#1" expanded="false" />
+                    <element signature="e#13816#15656#0" expanded="false" />
+                    <element signature="e#15733#17578#0" expanded="false" />
+                    <element signature="e#15733#15913#1" expanded="false" />
                   </folding>
                 </state>
               </provider>
@@ -91,52 +76,36 @@
       </split-first>
       <split-second>
         <leaf>
-          <file leaf-file-name="test.py" pinned="false" current-in-tab="false">
+          <file leaf-file-name="test.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/test.py">
               <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.48176584">
+                  <caret line="51" column="13" selection-start-line="51" selection-start-column="13" selection-end-line="51" selection-end-column="13" />
+                  <folding>
+                    <element signature="e#0#10#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="warehouse_69.txt" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/warehouses/warehouse_69.txt">
+              <provider selected="true" editor-type-id="text-editor">
                 <state vertical-scroll-proportion="0.0">
-                  <caret line="41" column="35" selection-start-line="0" selection-start-column="0" selection-end-line="41" selection-end-column="72" />
+                  <caret line="4" column="9" selection-start-line="4" selection-start-column="9" selection-end-line="4" selection-end-column="9" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="warehouse_05.txt" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/warehouses/warehouse_05.txt">
+          <file leaf-file-name="test_shortest_path.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/test_shortest_path.py">
               <provider selected="true" editor-type-id="text-editor">
                 <state vertical-scroll-proportion="0.0">
-                  <caret line="2" column="5" selection-start-line="2" selection-start-column="5" selection-end-line="2" selection-end-column="5" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="warehouse_35.txt" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/warehouses/warehouse_35.txt">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0">
-                  <caret line="10" column="8" selection-start-line="10" selection-start-column="8" selection-end-line="10" selection-end-column="8" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="warehouse_37.txt" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/warehouses/warehouse_37.txt">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0">
-                  <caret line="9" column="1" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="warehouse_33.txt" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/warehouses/warehouse_33.txt">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.2587601">
-                  <caret line="4" column="2" selection-start-line="4" selection-start-column="2" selection-end-line="4" selection-end-column="2" />
-                  <folding />
+                  <caret line="23" column="46" selection-start-line="23" selection-start-column="46" selection-end-line="23" selection-end-column="46" />
+                  <folding>
+                    <element signature="e#0#10#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -160,23 +129,22 @@
       <list>
         <option value="$PROJECT_DIR$/2016_sokoban_BB/test_warehouse.py" />
         <option value="$PROJECT_DIR$/2016_sokoban_BB/warehouses/warehouse_01.txt" />
-        <option value="$PROJECT_DIR$/2016_sokoban_BB/warehouses/warehouse_03.txt" />
         <option value="$PROJECT_DIR$/2016_sokoban_BB/test_suite/test_warehouse.py" />
         <option value="$PROJECT_DIR$/2016_sokoban_BB/test_suite/test_sokobanPuzzle.py" />
         <option value="$PROJECT_DIR$/2016_sokoban_BB/warehouses/warehouse_19.txt" />
-        <option value="$PROJECT_DIR$/2016_sokoban_BB/cab320_search.py" />
         <option value="$PROJECT_DIR$/2016_sokoban_BB/cab320_sokoban.py" />
-        <option value="$PROJECT_DIR$/2016_sokoban_BB/test.py" />
-        <option value="$PROJECT_DIR$/2016_sokoban_BB/mySokobanSolver.py" />
         <option value="$PROJECT_DIR$/2016_sokoban_BB/main.py" />
+        <option value="$PROJECT_DIR$/2016_sokoban_BB/warehouses/warehouse_03.txt" />
+        <option value="$PROJECT_DIR$/2016_sokoban_BB/cab320_search.py" />
+        <option value="$PROJECT_DIR$/2016_sokoban_BB/mySokobanSolver.py" />
+        <option value="$PROJECT_DIR$/2016_sokoban_BB/test_shortest_path.py" />
+        <option value="$PROJECT_DIR$/2016_sokoban_BB/test.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1280" />
-    <option name="y" value="-280" />
-    <option name="width" value="1920" />
-    <option name="height" value="1080" />
+    <option name="width" value="1280" />
+    <option name="height" value="800" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -249,24 +217,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="warehouses" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="assignment_one" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="assignment_one" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="2016_sokoban_BB" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="test_suite" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -283,7 +233,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/2016_sokoban_BB/main.py" />
     <property name="FullScreen" value="true" />
   </component>
-  <component name="RunManager" selected="Python.main">
+  <component name="RunManager" selected="Python.test_shortest_path">
     <configuration default="false" name="main" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -335,28 +285,6 @@
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
     </configuration>
-    <configuration default="false" name="Unittests in test_sokobanPuzzle" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/2016_sokoban_BB/test_suite" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="assignment_one" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/2016_sokoban_BB/test_suite/test_sokobanPuzzle.py" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <option name="PUREUNITTEST" value="true" />
-      <option name="PARAMS" value="" />
-      <option name="USE_PARAM" value="false" />
-      <method />
-    </configuration>
     <configuration default="false" name="test" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -370,6 +298,23 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="assignment_one" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/2016_sokoban_BB/test.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="test_shortest_path" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/2016_sokoban_BB" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="assignment_one" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/2016_sokoban_BB/test_shortest_path.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
@@ -500,16 +445,16 @@
       <item index="0" class="java.lang.String" itemvalue="Python.main" />
       <item index="1" class="java.lang.String" itemvalue="Python.mySokobanSolver" />
       <item index="2" class="java.lang.String" itemvalue="Python.cab320_sokoban_gui" />
-      <item index="3" class="java.lang.String" itemvalue="Python tests.Unittests in test_sokobanPuzzle" />
-      <item index="4" class="java.lang.String" itemvalue="Python.test" />
+      <item index="3" class="java.lang.String" itemvalue="Python.test" />
+      <item index="4" class="java.lang.String" itemvalue="Python.test_shortest_path" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.main" />
-        <item index="1" class="java.lang.String" itemvalue="Python.mySokobanSolver" />
-        <item index="2" class="java.lang.String" itemvalue="Python.test" />
-        <item index="3" class="java.lang.String" itemvalue="Python.cab320_sokoban_gui" />
-        <item index="4" class="java.lang.String" itemvalue="Python tests.Unittests in test_sokobanPuzzle" />
+        <item index="0" class="java.lang.String" itemvalue="Python.test_shortest_path" />
+        <item index="1" class="java.lang.String" itemvalue="Python.test" />
+        <item index="2" class="java.lang.String" itemvalue="Python.main" />
+        <item index="3" class="java.lang.String" itemvalue="Python.mySokobanSolver" />
+        <item index="4" class="java.lang.String" itemvalue="Python.cab320_sokoban_gui" />
       </list>
     </recent_temporary>
   </component>
@@ -559,15 +504,15 @@
     </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1280" y="-280" width="1920" height="1080" extended-state="0" />
+    <frame x="0" y="0" width="1280" height="800" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.103212215" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12629071" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32277226" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32970297" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23762377" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2479452" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -613,19 +558,11 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="28" />
+      <option name="time" value="29" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/cab320_sokoban_gui.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3648374">
-          <caret line="86" column="31" selection-start-line="86" selection-start-column="31" selection-end-line="86" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/warehouses/warehouse_19.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -778,14 +715,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/warehouses/warehouse_69.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/warehouses/warehouse_71.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -930,26 +859,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/warehouses/warehouse_03.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4528302">
-          <caret line="7" column="1" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/warehouses/warehouse_01.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.1819407">
           <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/warehouses/warehouse_39.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -965,7 +878,7 @@
     <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/warehouses/warehouse_35.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="10" column="8" selection-start-line="10" selection-start-column="8" selection-end-line="10" selection-end-column="8" />
+          <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -986,71 +899,171 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/test.py">
+    <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/warehouses/warehouse_33.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="41" column="35" selection-start-line="0" selection-start-column="0" selection-end-line="41" selection-end-column="72" />
+        <state vertical-scroll-proportion="0.18987341">
+          <caret line="5" column="7" selection-start-line="5" selection-start-column="7" selection-end-line="5" selection-end-column="7" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/warehouses/warehouse_33.txt">
+    <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.2587601">
-          <caret line="4" column="2" selection-start-line="4" selection-start-column="2" selection-end-line="4" selection-end-column="2" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#29#0" expanded="true" />
+            <element signature="e#60#449#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/warehouses/warehouse_39.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/cab320_search.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="2.756962">
+          <caret line="441" column="0" selection-start-line="441" selection-start-column="0" selection-end-line="441" selection-end-column="0" />
+          <folding>
+            <element signature="e#46#385#1" expanded="false" />
+            <element signature="e#652#942#0" expanded="false" />
+            <element signature="e#765#891#0" expanded="false" />
+            <element signature="e#975#1280#0" expanded="false" />
+            <element signature="e#975#1168#1" expanded="false" />
+            <element signature="e#1553#2295#0" expanded="false" />
+            <element signature="e#1553#2161#1" expanded="false" />
+            <element signature="e#2195#2220#0" expanded="false" />
+            <element signature="e#2259#2295#0" expanded="false" />
+            <element signature="e#2319#2461#0" expanded="false" />
+            <element signature="e#2319#2447#1" expanded="false" />
+            <element signature="e#2504#2789#0" expanded="false" />
+            <element signature="e#2504#2630#1" expanded="false" />
+            <element signature="e#2664#2696#0" expanded="false" />
+            <element signature="e#2725#2789#0" expanded="false" />
+            <element signature="e#2824#3913#0" expanded="false" />
+            <element signature="e#2824#2966#1" expanded="false" />
+            <element signature="e#3015#3045#0" expanded="false" />
+            <element signature="e#3083#3127#0" expanded="false" />
+            <element signature="e#3160#3178#0" expanded="false" />
+            <element signature="e#3211#3229#0" expanded="false" />
+            <element signature="e#3258#3387#0" expanded="false" />
+            <element signature="e#3431#3529#0" expanded="false" />
+            <element signature="e#3571#3707#0" expanded="false" />
+            <element signature="e#3749#3913#0" expanded="false" />
+            <element signature="e#4023#4306#1" expanded="false" />
+            <element signature="e#4360#4591#0" expanded="false" />
+            <element signature="e#4360#4534#1" expanded="false" />
+            <element signature="e#4631#4915#0" expanded="false" />
+            <element signature="e#4631#4881#1" expanded="false" />
+            <element signature="e#4962#5146#0" expanded="false" />
+            <element signature="e#4962#5112#1" expanded="false" />
+            <element signature="e#5188#5439#0" expanded="false" />
+            <element signature="e#5188#5405#1" expanded="false" />
+            <element signature="e#5501#5908#0" expanded="false" />
+            <element signature="e#5501#5886#1" expanded="false" />
+            <element signature="e#6009#6585#1" expanded="false" />
+            <element signature="e#6665#6889#0" expanded="false" />
+            <element signature="e#6923#6957#0" expanded="false" />
+            <element signature="e#6998#7144#0" expanded="false" />
+            <element signature="e#7593#7716#0" expanded="false" />
+            <element signature="e#7746#7977#0" expanded="false" />
+            <element signature="e#8247#8307#0" expanded="false" />
+            <element signature="e#8341#8364#0" expanded="false" />
+            <element signature="e#8522#9507#0" expanded="false" />
+            <element signature="e#8522#8834#1" expanded="false" />
+            <element signature="e#9551#10396#0" expanded="false" />
+            <element signature="e#9551#9844#1" expanded="false" />
+            <element signature="e#10443#10836#0" expanded="false" />
+            <element signature="e#10443#10512#1" expanded="false" />
+            <element signature="e#10881#10978#0" expanded="false" />
+            <element signature="e#11024#11122#0" expanded="false" />
+            <element signature="e#11164#11646#0" expanded="false" />
+            <element signature="e#11694#13009#0" expanded="false" />
+            <element signature="e#11694#12202#1" expanded="false" />
+            <element signature="e#13050#13140#0" expanded="false" />
+            <element signature="e#13192#13911#0" expanded="false" />
+            <element signature="e#13264#13816#0" expanded="false" />
+            <element signature="e#13959#14127#0" expanded="false" />
+            <element signature="e#14406#14655#0" expanded="false" />
+            <element signature="e#14406#14549#1" expanded="false" />
+            <element signature="e#14704#14848#0" expanded="false" />
+            <element signature="e#14901#15824#0" expanded="false" />
+            <element signature="e#14901#14979#1" expanded="false" />
+            <element signature="e#15113#15726#0" expanded="false" />
+            <element signature="e#15861#16853#0" expanded="false" />
+            <element signature="e#15909#16468#0" expanded="false" />
+            <element signature="e#16906#18030#0" expanded="false" />
+            <element signature="e#16954#17542#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/warehouses/warehouse_03.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.24390244">
+          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/warehouses/warehouse_69.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="4" column="9" selection-start-line="4" selection-start-column="9" selection-end-line="4" selection-end-column="9" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/mySokobanSolver.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="315" column="0" selection-start-line="315" selection-start-column="0" selection-end-line="315" selection-end-column="0" />
+        <state vertical-scroll-proportion="-0.03846154">
+          <caret line="386" column="28" selection-start-line="386" selection-start-column="28" selection-end-line="386" selection-end-column="28" />
           <folding>
+            <element signature="e#319#13210#0" expanded="false" />
             <element signature="e#319#475#1" expanded="false" />
             <element signature="e#525#940#0" expanded="false" />
             <element signature="e#982#1387#0" expanded="false" />
             <element signature="e#982#1166#1" expanded="false" />
-            <element signature="e#1427#3766#0" expanded="false" />
+            <element signature="e#1427#3765#0" expanded="false" />
             <element signature="e#1427#1652#1" expanded="false" />
-            <element signature="e#3813#5165#0" expanded="false" />
-            <element signature="e#5203#5360#0" expanded="false" />
-            <element signature="e#5399#11305#0" expanded="false" />
-            <element signature="e#11367#11379#0" expanded="false" />
-            <element signature="e#11430#12277#0" expanded="false" />
-            <element signature="e#12344#12517#0" expanded="false" />
-            <element signature="e#12344#12517#2" expanded="false" />
-            <element signature="e#13632#14021#0" expanded="false" />
-            <element signature="e#14109#14290#1" expanded="false" />
-            <element signature="e#18193#19210#1" expanded="false" />
-            <element signature="e#22428#29628#0" expanded="false" />
-            <element signature="e#22428#23129#1" expanded="false" />
-            <element signature="e#29018#29431#0" expanded="false" />
-            <element signature="e#29783#30701#0" expanded="false" />
-            <element signature="e#29783#30581#1" expanded="false" />
-            <element signature="e#30818#30934#0" expanded="false" />
-            <element signature="e#31002#32162#0" expanded="false" />
-            <element signature="e#31002#32043#1" expanded="false" />
+            <element signature="e#3812#5164#0" expanded="false" />
+            <element signature="e#5202#5359#0" expanded="false" />
+            <element signature="e#5398#11304#0" expanded="false" />
+            <element signature="e#11366#11378#0" expanded="false" />
+            <element signature="e#11429#12276#0" expanded="false" />
+            <element signature="e#12343#12516#0" expanded="false" />
+            <element signature="e#12343#12516#2" expanded="false" />
+            <element signature="e#12549#13210#0" expanded="false" />
+            <element signature="e#12549#12651#1" expanded="false" />
+            <element signature="e#13816#15656#0" expanded="false" />
+            <element signature="e#15733#17578#0" expanded="false" />
+            <element signature="e#15733#15913#1" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/cab320_search.py">
+    <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/test_shortest_path.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.814815">
-          <caret line="390" column="25" selection-start-line="390" selection-start-column="25" selection-end-line="390" selection-end-column="25" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="23" column="46" selection-start-line="23" selection-start-column="46" selection-end-line="23" selection-end-column="46" />
           <folding>
-            <element signature="e#2824#3913#0" expanded="false" />
+            <element signature="e#0#10#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/main.py">
+    <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3701016">
-          <caret line="17" column="44" selection-start-line="17" selection-start-column="44" selection-end-line="17" selection-end-column="44" />
+        <state vertical-scroll-proportion="0.48176584">
+          <caret line="51" column="13" selection-start-line="51" selection-start-column="13" selection-end-line="51" selection-end-column="13" />
           <folding>
-            <element signature="e#0#29#0" expanded="true" />
+            <element signature="e#0#10#0" expanded="true" />
           </folding>
         </state>
       </provider>

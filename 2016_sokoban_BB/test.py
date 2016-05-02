@@ -15,6 +15,8 @@ s = SokobanPuzzle(path + "/warehouse_03.txt")
 s1 = SokobanPuzzleMacro(path + "/warehouse_03.txt")
 s2 = SokobanPuzzleMacro(path + "/warehouse_05.txt")
 s3 = SokobanPuzzleMacro(path + "/warehouse_33.txt")
+s4 = SokobanPuzzleMacro(path + "/warehouse_69.txt")
+
 # w = Warehouse()
 # w.read_warehouse_file(file_warehouse_03)
 
@@ -40,3 +42,23 @@ t = tabooCells(path + "/warehouse_69.txt")
 # macro action testing for warehouse_33
 # print s3.initial
 # print s3.__get_macro_end_points__((5,3), (6,4), [(5,3), (3,4), (3,3)])
+
+# test worker_adjacent_to_moveable_box
+
+if False:
+    state = s1.initial
+    state = list(state)
+    worker = state.pop(0)
+    print s1.worker_adjacent_to_move_able_box((8,3), state)
+
+if False:
+    state = s4.initial
+    state = list(state)
+    worker = state.pop(0)
+
+    print worker
+    print state
+
+    print s4.worker_adjacent_to_move_able_box(worker, state)
+    print s4.worker_adjacent_to_move_able_box((8,4), state)
+    print s4.worker_adjacent_to_move_able_box((9,3), state)

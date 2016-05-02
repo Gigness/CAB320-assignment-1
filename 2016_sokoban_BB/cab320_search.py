@@ -439,7 +439,7 @@ def iterative_deepening_search(problem):
 # Informed (Heuristic) Search
 
 greedy_best_first_graph_search = best_first_graph_search
-    # Greedy best-first search is accomplished by specifying f(n) = h(n).
+# Greedy best-first search is accomplished by specifying f(n) = h(n).
 
 
 def astar_search(problem, h=None):
@@ -448,6 +448,7 @@ def astar_search(problem, h=None):
     else in your Problem subclass."""
     h = memoize(h or problem.h)
     return best_first_graph_search(problem, lambda n: n.path_cost + h(n))
+
 
 def ida_star_search_elementary(problem):
 

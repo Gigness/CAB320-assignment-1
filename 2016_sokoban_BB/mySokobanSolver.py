@@ -54,7 +54,6 @@ class SokobanPuzzle(Problem):
         w_y_up = w_y - 1
         w_y_down = w_y + 1
 
-
         # check if left move is legal
         if (w_x_left, w_y) not in self.warehouse.walls:  # no walls
             if (w_x_left, w_y) in state:  # box in new position?
@@ -324,35 +323,31 @@ class SokobanPuzzle(Problem):
                 dist += min(dist_each_box)
         return dist
 
-        # dist = 0
-        # for i in xrange(len(self.warehouse.boxes)):
-        #         b_x, b_y = self.warehouse.boxes[i]
-        #         t_x, t_y = self.warehouse.targets[i]
-        #         dist_to_box = abs(b_x - t_x) + abs(b_y - t_y)
-        #         dist += dist_to_box
-        # return dist
-
 
 class SokobanPuzzleMacro(SokobanPuzzle):
 
-    def __get_adjacent_box__(self, w_x, w_y, state_of_boxes):
-        for b_x, b_y in state_of_boxes:
-            if w_x == b_x:
-                if abs(w_y - b_y) == 1:
-                    # the box is adjacent to the worker (either above or below)
-                    return b_x, b_y
-            if w_y == b_y:
-                if abs(w_x - b_x) == 1:
-                    # the box is adjacent to the worker (left or right)
-                    return b_x, b_y
+    # def __get_adjacent_box__(self, w_x, w_y, state_of_boxes):
+    #     for b_x, b_y in state_of_boxes:
+    #         if w_x == b_x:
+    #             if abs(w_y - b_y) == 1:
+    #                 # the box is adjacent to the worker (either above or below)
+    #                 return b_x, b_y
+    #         if w_y == b_y:
+    #             if abs(w_x - b_x) == 1:
+    #                 # the box is adjacent to the worker (left or right)
+    #                 return b_x, b_y
 
-    def __worker_adjacent_to_move_able_box__(self, w_x, w_y, state_of_boxes):
+    def worker_adjacent_to_move_able_box(self, worker, state_of_boxes):
         """
         Is the worker near a moveable box?
             If so, don't need to perform a macro action
         Else
             Need to get in position to a moveable box
+        :param worker: worker coords
+        :param state_of_boxes: coordinates of all boxes
+        :return True or False
         """
+        w_x, w_y = worker
         w_x_left = w_x - 1
         w_x_right = w_x + 1
         w_y_up = w_y - 1
@@ -389,7 +384,7 @@ class SokobanPuzzleMacro(SokobanPuzzle):
                 return True
         return False
 
-    def __get_macro_end_points__(self, (b_x, b_y), (w_x, w_y), state):
+    def get_macro_end_points(self, (b_x, b_y), (w_x, w_y), state):
         """
 
         :param state:
@@ -434,20 +429,141 @@ class SokobanPuzzleMacro(SokobanPuzzle):
                         macro_end_point.append((b_x, b_y_down))
         return macro_end_point
 
-    def __worker_to_macro_end_point__(self, (m_x, m_y), (w_x, w_y), state):
+    def worker_to_macro_end_point(self, macro_end_point, worker, state):
+        """
+        Solves a sub problem, using astar
+
+        :param state: current state of the warehouse
+        :return: list of actions
+        """
         pass
 
-
     def actions(self, state):
+        """
+        Case 1: worker is adjacent to a moveable box, this will result in a normal action
+        Case 2: worker is not adjacent to a moveable box, this will result in a macro action
+        :param state:
+        :return:
+        """
         state = list(state)
         actions = list()
 
-        (w_x, w_y) = state.pop(0)
+        w_x, w_y = state.pop(0)
+        w_x_left = w_x - 1
+        w_x_right = w_x + 1
+        w_y_up = w_y - 1
+        w_y_down = w_y + 1
+
+        require_macro_action = self.worker_adjacent_to_move_able_box((w_x, w_y), state)
+
+        if require_macro_action:
+            pass
+        else:
+            pass
+
+    def result(self, state, action):
+        pass
+
+    def sub_problem_actions(self, node):
+        """
+        Given the solution of a sub problem, return a list of "Macro" actions
+        :param node:
+        :return:
+        """
+        actions = []
+        if node is None:
+            return None
+        else:
+            # path is list of nodes from initial state (root of the tree)
+            # to the goal_node
+            path = node.path()
+            # print the solution
+            for node in path:
+                if node.action is not None:
+                    actions.append(node.action)
+            return actions
+
+
+class ShortestPath(Problem):
+    """
+    Sub Problem class of the Sokoban puzzle
+    Shortest path between a worker and a target location (macro action end point)
+    """
+
+    def __init__(self, worker, walls, boxes, target_location):
+        """
+        
+        :param worker: 
+        :param walls: 
+        :param boxes: 
+        :param target_location: 
+        :return: 
+        """
+        self.initial = worker
+        self.walls = walls
+        self.boxes = boxes
+        self.target_location = target_location
+
+
+    def actions(self, state):
+        """
+        :param state: tuple of worker coords (w_x, w_y)
+        :return actions: list of legal actions for the worker
+        """
+
+        actions = list()
+
+        (w_x, w_y) = state  # get worker coords
         w_x_left = w_x - 1
         w_x_right = w_x + 1
         w_y_up = w_y - 1
         w_y_down = w_y + 1
         
+        # check if left move is legal
+        if (w_x_left, w_y) not in self.walls and (w_x_left, w_y) not in self.boxes:  # no walls and boxes
+                actions.append('Left')
+        if (w_x_right, w_y) not in self.walls and (w_x_right, w_y) not in self.boxes:
+                actions.append('Right')
+        if (w_x, w_y_down) not in self.walls and (w_x, w_y_down) not in self.boxes:
+                actions.append('Down')
+        if (w_x, w_y_up) not in self.walls and (w_x, w_y_up) not in self.boxes:
+                actions.append('Up')
+        return actions
+
+    def result(self, state, action):
+        """
+
+        :param state:
+        :param action:
+        :return:
+        """
+
+        (w_x, w_y) = state
+        if action == 'Left':
+            return w_x - 1, w_y
+        elif action == 'Right':
+            return w_x + 1, w_y
+        elif action == 'Up':
+            return w_x, w_y - 1
+        elif action == 'Down':
+            return w_x, w_y + 1
+        else:
+            raise ValueError("Invalid action given")
+
+    def goal_test(self, state):
+        return state == self.target_location
+
+    def h(self, node):
+        """
+        Manhattan distance
+        :param node:
+        :return:
+        """
+        (w_x, w_y) = node.state
+        (t_x, t_y) = self.target_location
+        dist = abs(w_x - t_x) + abs(w_y - t_y)
+        return dist
+
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
