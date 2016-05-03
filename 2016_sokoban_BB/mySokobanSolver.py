@@ -254,12 +254,14 @@ class SokobanPuzzle(Problem):
 
                 if (bounded_left_wall or bounded_right_wall) and not target_in_segment:
                     for pos in segment:
-                        taboo.append((col, pos))
+                        if (col, pos) not in taboo:
+                            taboo.append((col, pos))
                 else:
                     for pos in segment:
                         if ((pos - 1) in row_current_walls or (pos + 1) in row_current_walls) and (pos in
                         row_left_walls or pos in row_right_walls):
-                            taboo.append((col, pos))
+                            if (col,pos) not in taboo:
+                                taboo.append((col, pos))
 
             taboo_with_targets = [t for t in taboo if t not in self.warehouse.targets]
 
@@ -350,34 +352,34 @@ class SokobanPuzzleMacro(SokobanPuzzle):
             b_y = w_y
             if (b_x_left, b_y) not in self.warehouse.walls and (b_x_left, b_y) not in state_of_boxes\
                     and (b_x_left, b_y) not in self.taboo:
-                # meaningful_actions.append("Left")
-                return True
+                meaningful_actions.append("Left")
+                # return True
         if (w_x_right, w_y) in state_of_boxes:
             # check if that box can be moved
             b_x_right = w_x_right + 1
             b_y = w_y
             if (b_x_right, b_y) not in self.warehouse.walls and (b_x_right, b_y) not in state_of_boxes\
                     and (b_x_right, b_y) not in self.taboo:
-                # meaningful_actions.append("Right")
-                return True
+                meaningful_actions.append("Right")
+                # return True
         if (w_x, w_y_up) in state_of_boxes:
             # check if that box can be moved
             b_x = w_x
             b_y_up = w_y_up - 1
             if (b_x, b_y_up) not in self.warehouse.walls and (b_x, b_y_up) not in state_of_boxes\
                     and (b_x, b_y_up) not in self.taboo:
-                # meaningful_actions.append("Up")
-                return True
+                meaningful_actions.append("Up")
+                # return True
         if (w_x, w_y_down) in state_of_boxes:
             # check if that box can be moved
             b_x = w_x
             b_y_down = w_y_down + 1
             if (b_x, b_y_down) not in self.warehouse.walls and (b_x, b_y_down) not in state_of_boxes\
                     and (b_x, b_y_down) not in self.taboo:
-                # meaningful_actions.append("Down")
-                return True
-        return False
-        # return meaningful_actions
+                meaningful_actions.append("Down")
+                # return True
+        # return False
+        return meaningful_actions
 
     def get_macro_end_points(self, box, worker, state):
         """
@@ -453,61 +455,62 @@ class SokobanPuzzleMacro(SokobanPuzzle):
 
         actions_move_boxes = self.worker_adjacent_to_move_able_box((w_x, w_y), state)
 
-        if not actions_move_boxes:
-            for box in state:
-                macro_end_points = self.get_macro_end_points(box, (w_x, w_y), state)
-                # solve the sub problem to get to each macro end point
-                if macro_end_points:
-                    for target_loc in macro_end_points:
-                        macro_action = self.get_macro_actions_list(target_loc, (w_x, w_y), state)
-                        if macro_action is not None:
-                            actions.append(self.unpack_macro_action(macro_action))
-        else:  # we are adjacent to a box which is move able to a legal position
-            # We only care about moving the box
-            # ^^^ dangerous logic up here, miss out on essential paths to solving the problem
-            w_x_left = w_x - 1
-            w_x_right = w_x + 1
-            w_y_up = w_y - 1
-            w_y_down = w_y + 1
+        if actions_move_boxes:
+            for action in actions_move_boxes:
+                actions.append(action)
 
-            if (w_x_left, w_y) not in self.warehouse.walls:  # no walls
-                if (w_x_left, w_y) in state:  # box in new position?
-                    (b_x, b_y) = (w_x_left, w_y)
-                    b_x_left = b_x - 1
-                    if (b_x_left, b_y) not in self.warehouse.walls and (b_x_left, b_y) not in state\
-                            and (b_x_left, b_y) not in self.taboo:  # box not pushed in taboo/wall/another_box
-                        actions.append('Left')
-                else:
-                    actions.append('Left')
-            if (w_x_right, w_y) not in self.warehouse.walls:
-                if (w_x_right, w_y) in state:
-                    (b_x, b_y) = (w_x_right, w_y)
-                    b_x_right = b_x + 1
-                    if (b_x_right, b_y) not in self.warehouse.walls and (b_x_right, b_y) not in state\
-                            and (b_x_right, b_y) not in self.taboo:
-                        actions.append('Right')
-                else:
-                    actions.append('Right')
-            if (w_x, w_y_down) not in self.warehouse.walls:
-                if (w_x, w_y_down) in state:
-                    (b_x, b_y) = (w_x, w_y_down)
-                    b_y_down = b_y + 1
-                    if (b_x, b_y_down) not in self.warehouse.walls and (b_x, b_y_down) not in state\
-                            and (b_x, b_y_down) not in self.taboo:
-                        actions.append('Down')
-                else:
-                    actions.append('Down')
-            if (w_x, w_y_up) not in self.warehouse.walls:
-                if (w_x, w_y_up) in state:
-                    (b_x, b_y) = (w_x, w_y_up)
-                    b_y_up = b_y - 1
-                    if (b_x, b_y_up) not in self.warehouse.walls and (b_x, b_y_up) not in state\
-                            and (b_x, b_y_up) not in self.taboo:
-                        actions.append('Up')
-                else:
-                    actions.append('Up')
+        for box in state:
+            macro_end_points = self.get_macro_end_points(box, (w_x, w_y), state)
+            # solve the sub problem to get to each macro end point
+            if macro_end_points:
+                for target_loc in macro_end_points:
+                    macro_action = self.get_macro_actions_list(target_loc, (w_x, w_y), state)
+                    if macro_action is not None:
+                        actions.append(self.unpack_macro_action(macro_action))
 
         return actions
+
+    def graveyard(self):
+        pass
+        # archived actions
+        # def actions(self, state):
+        #     """
+        #     Case 1: worker is adjacent to a moveable box, this will result in a normal action
+        #     Case 2: worker is not adjacent to a moveable box, this will result in a macro action
+        #     :param state:
+        #     :return:
+        #     """
+        #     state = list(state)
+        #     actions = list()
+        #
+        #     w_x, w_y = state.pop(0)
+        #
+        #     actions_move_boxes = self.worker_adjacent_to_move_able_box((w_x, w_y), state)
+        #
+        #     if not actions_move_boxes:
+        #         for box in state:
+        #             macro_end_points = self.get_macro_end_points(box, (w_x, w_y), state)
+        #             # solve the sub problem to get to each macro end point
+        #             if macro_end_points:
+        #                 for target_loc in macro_end_points:
+        #                     macro_action = self.get_macro_actions_list(target_loc, (w_x, w_y), state)
+        #                     if macro_action is not None:
+        #                         actions.append(self.unpack_macro_action(macro_action))
+        #     else:  # we are adjacent to a box which is move able to a legal position
+        #         # We only care about moving the box
+        #         # ^^^ dangerous logic up here, miss out on essential paths to solving the problem
+        #         # w_x_left = w_x - 1
+        #         # w_x_right = w_x + 1
+        #         # w_y_up = w_y - 1
+        #         # w_y_down = w_y + 1
+        #
+        #         for action in actions_move_boxes:
+        #             actions.append(action)
+        #
+        #             # for that specific box
+        #             # get more macro end points
+        #
+        #     return actions
 
     def result(self, state, action):
         # check for a macro action
@@ -602,6 +605,34 @@ class SokobanPuzzleMacro(SokobanPuzzle):
             return len(action) + c
         return c + 1
 
+    def print_solution(self, goal_node):
+        actions = []
+        if goal_node == None:
+            print "No solution found"
+        elif goal_node == 'cuttoff':
+            print "cuttoff"
+        else:
+            # path is list of nodes from initial state (root of the tree)
+            # to the goal_node
+            path = goal_node.path()
+
+            # print path
+            # print the solution
+            print "Solution takes {0} steps from the initial state".format(len(path)-1)
+            print path[0].state
+            print "to the goal state"
+            print path[-1].state
+            print "\nBelow is the sequence of moves\n"
+            for node in path:
+                if node.action is not None:
+                    if isinstance(node.action, list):
+                        for action in node.action:
+                            print "{0}".format(action)
+                            actions.append(action)
+                    else:
+                        print "{0}".format(node.action)
+                        actions.append(node.action)
+            return actions
 
 
 class ShortestPath(Problem):
@@ -684,8 +715,8 @@ class ShortestPath(Problem):
         dist = abs(w_x - t_x) + abs(w_y - t_y)
         return dist
 
-
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 
 def checkActions(puzzleFileName, actionSequence):
         """
@@ -790,6 +821,7 @@ def checkActions(puzzleFileName, actionSequence):
         soko.warehouse.worker = (w_x, w_y)
         soko.warehouse.boxes = boxes
         return soko.warehouse.visualize()
+
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
