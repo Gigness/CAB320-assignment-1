@@ -492,24 +492,29 @@ def a_star_limited_search(problem, f_val=50):
 
 
 def ida_star_search(problem):
+
     def a_star_bounded_search(node, bound):
         f_val = f(node)
-        # print node, " f: ", f_val, " , bound: ", bound
 
-        if f_val > bound:
-            return f_val
-        elif problem.goal_test(node.state):
+        if problem.goal_test(node.state):
             return node
+        elif f_val > bound:
+            return f_val
 
-        f_min = float('inf')
+        # if f_val > bound:
+        #     return f_val
+        # elif problem.goal_test(node.state):
+        #     return node
+
+        f_min = sys.maxint
 
         for child in node.expand(problem):
-            result = a_star_bounded_search(child, bound)
-            if isinstance(result, int):  # f bound surpassed
-                if result < f_min:
-                    f_min = result
-            elif result is not None:  # found a goal
-                return result
+            t = a_star_bounded_search(child, bound)
+            if isinstance(t, int):  # f bound surpassed
+                if t < f_min:
+                    f_min = t
+            elif t is not None:  # found a goal
+                return t
 
         return f_min
 
@@ -521,7 +526,7 @@ def ida_star_search(problem):
 
     while True:
         result = a_star_bounded_search(root, bound)
-        if result == float('inf'):  # no solution exists
+        if result == sys.maxint:  # no solution exists
             return None
         elif isinstance(result, int):
             bound = result

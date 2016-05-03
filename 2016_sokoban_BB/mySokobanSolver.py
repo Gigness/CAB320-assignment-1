@@ -1,5 +1,4 @@
-from cab320_search import iterative_deepening_search, Problem, ida_star_search_elementary,\
-    astar_search, ida_star_search, iterative_deepening_search, ida_star_search_limited
+from cab320_search import Problem, astar_search, ida_star_search, ida_star_search_limited
 
 import cab320_sokoban
 
@@ -352,40 +351,163 @@ class SokobanPuzzleMacro(SokobanPuzzle):
             b_y = w_y
             if (b_x_left, b_y) not in self.warehouse.walls and (b_x_left, b_y) not in state_of_boxes\
                     and (b_x_left, b_y) not in self.taboo:
-                # TODO
-                # Ok, the box won't be pushed in a taboo state or wall or another box
-                # lets check if it creates a dynamic dead state
-                    #  box in question: b_x_left, b_y
-                    #  get adjacent box b_x_left, b_y - 1, b_x_left, b_y + 1
-                    #  
 
-                meaningful_actions.append("Left")
-                # return True
+                # Check if it moving the box will cause a dynamic dead lock
+                adj_box_above = (b_x_left, b_y - 1)
+                adj_box_below =(b_x_left, b_y + 1)
+
+                if adj_box_above not in state_of_boxes and adj_box_below not in state_of_boxes:
+                    meaningful_actions.append("Left")
+                else:
+
+                    dead_lock = False
+
+                    if adj_box_above in state_of_boxes:  # Theres a box adjacent (above)
+                        b_adj_above_x, b_adj_above_y = adj_box_above
+
+                        check_wall_adj = b_adj_above_x - 1, b_adj_above_y
+                        check_wall_box = b_x_left - 1, b_y
+
+                        if check_wall_adj in self.warehouse.walls and check_wall_box in self.warehouse.walls:
+                            if adj_box_above not in self.warehouse.targets and\
+                            (b_x_left, b_y) not in self.warehouse.targets:
+                                dead_lock = True
+
+                    if adj_box_below in state_of_boxes:
+                        b_adj_below_x, b_adj_below_y = adj_box_below
+
+                        check_wall_adj = b_adj_below_x - 1, b_adj_below_y
+                        check_wall_box = b_x_left - 1, b_y
+
+                        if check_wall_adj in self.warehouse.walls and check_wall_box in self.warehouse.walls:
+                            if adj_box_below not in self.warehouse.targets or\
+                            (b_x_left, b_y) not in self.warehouse.targets:
+                                dead_lock = True
+                    if not dead_lock:
+                        meaningful_actions.append("Left")
+
         if (w_x_right, w_y) in state_of_boxes:
             # check if that box can be moved
             b_x_right = w_x_right + 1
             b_y = w_y
             if (b_x_right, b_y) not in self.warehouse.walls and (b_x_right, b_y) not in state_of_boxes\
                     and (b_x_right, b_y) not in self.taboo:
-                meaningful_actions.append("Right")
-                # return True
+
+                adj_box_above = (b_x_right, b_y - 1)
+                adj_box_below = (b_x_right, b_y + 1)
+
+                if adj_box_above not in state_of_boxes and adj_box_below not in state_of_boxes:
+                    meaningful_actions.append("Right")
+                else:
+
+                    dead_lock = False
+
+                    if adj_box_above in state_of_boxes:  # Theres a box adjacent (above)
+                        b_adj_above_x, b_adj_above_y = adj_box_above
+
+                        check_wall_adj = b_adj_above_x + 1, b_adj_above_y
+                        check_wall_box = b_x_right + 1, b_y
+
+                        if check_wall_adj in self.warehouse.walls and check_wall_box in self.warehouse.walls:
+                             if adj_box_above not in self.warehouse.targets or\
+                            (b_x_right, b_y) not in self.warehouse.targets:
+                                dead_lock = True
+
+                    if adj_box_below in state_of_boxes:
+                        b_adj_below_x, b_adj_below_y = adj_box_below
+
+                        check_wall_adj = b_adj_below_x + 1, b_adj_below_y
+                        check_wall_box = b_x_right + 1, b_y
+
+                        if check_wall_adj in self.warehouse.walls and check_wall_box in self.warehouse.walls:
+                            if adj_box_above not in self.warehouse.targets or\
+                            (b_x_right, b_y) not in self.warehouse.targets:
+                                dead_lock = True
+                    if not dead_lock:
+                        meaningful_actions.append("Right")
+
         if (w_x, w_y_up) in state_of_boxes:
             # check if that box can be moved
             b_x = w_x
             b_y_up = w_y_up - 1
             if (b_x, b_y_up) not in self.warehouse.walls and (b_x, b_y_up) not in state_of_boxes\
                     and (b_x, b_y_up) not in self.taboo:
-                meaningful_actions.append("Up")
-                # return True
+
+                adj_box_left = (b_x - 1, b_y_up)
+                adj_box_right =(b_x + 1, b_y_up)
+
+                if adj_box_left not in state_of_boxes and adj_box_right not in state_of_boxes:
+                    meaningful_actions.append("Up")
+                else:
+
+                    dead_lock = False
+
+                    if adj_box_left in state_of_boxes:  # Theres a box adjacent (above)
+                        b_adj_left_x, b_adj_left_y = adj_box_left
+
+                        check_wall_adj = b_adj_left_x, b_adj_left_y - 1
+                        check_wall_box = b_x, b_y_up - 1
+
+                        if check_wall_adj in self.warehouse.walls and check_wall_box in self.warehouse.walls:
+                            if check_wall_adj in self.warehouse.walls and check_wall_box in self.warehouse.walls:
+                                if adj_box_left not in self.warehouse.targets or\
+                                (b_x, b_y_up) not in self.warehouse.targets:
+                                    dead_lock = True
+
+                    if adj_box_right in state_of_boxes:
+                        b_adj_right_x, b_adj_right_y = adj_box_right
+
+                        check_wall_adj = b_adj_right_x, b_adj_right_y - 1
+                        check_wall_box = b_x, b_y_up - 1
+
+                        if check_wall_adj in self.warehouse.walls and check_wall_box in self.warehouse.walls:
+                            if check_wall_adj in self.warehouse.walls and check_wall_box in self.warehouse.walls:
+                                if adj_box_right not in self.warehouse.targets or\
+                                (b_x, b_y_up) not in self.warehouse.targets:
+                                    dead_lock = True
+                    if not dead_lock:
+                        meaningful_actions.append("Up")
         if (w_x, w_y_down) in state_of_boxes:
             # check if that box can be moved
             b_x = w_x
             b_y_down = w_y_down + 1
             if (b_x, b_y_down) not in self.warehouse.walls and (b_x, b_y_down) not in state_of_boxes\
                     and (b_x, b_y_down) not in self.taboo:
-                meaningful_actions.append("Down")
-                # return True
-        # return False
+
+                adj_box_left = (b_x - 1, b_y_down)
+                adj_box_right =(b_x + 1, b_y_down)
+
+                if adj_box_left not in state_of_boxes and adj_box_right not in state_of_boxes:
+                    meaningful_actions.append("Down")
+                else:
+
+                    dead_lock = False
+
+                    if adj_box_left in state_of_boxes:  # There is a box adjacent (above)
+                        b_adj_left_x, b_adj_left_y = adj_box_left
+
+                        check_wall_adj = b_adj_left_x, b_adj_left_y + 1
+                        check_wall_box = b_x, b_y_down + 1
+
+                        if check_wall_adj in self.warehouse.walls and check_wall_box in self.warehouse.walls:
+                            if check_wall_adj in self.warehouse.walls and check_wall_box in self.warehouse.walls:
+                                if adj_box_left not in self.warehouse.targets or\
+                                (b_x, b_y_down) not in self.warehouse.targets:
+                                    dead_lock = True
+
+                    if adj_box_right in state_of_boxes:
+                        b_adj_right_x, b_adj_right_y = adj_box_right
+
+                        check_wall_adj = b_adj_right_x, b_adj_right_y + 1
+                        check_wall_box = b_x, b_y_down + 1
+
+                        if check_wall_adj in self.warehouse.walls and check_wall_box in self.warehouse.walls:
+                            if check_wall_adj in self.warehouse.walls and check_wall_box in self.warehouse.walls:
+                                if adj_box_right not in self.warehouse.targets or\
+                                (b_x, b_y_down) not in self.warehouse.targets:
+                                    dead_lock = True
+                    if not dead_lock:
+                        meaningful_actions.append("Down")
         return meaningful_actions
 
     def get_macro_end_points(self, box, worker, state):
@@ -997,6 +1119,7 @@ def tabooCells(puzzleFileName):
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+
 def solveSokoban_elementary(puzzleFileName, timeLimit = None):
         """
         This is a function called by the automatic marker.
@@ -1019,11 +1142,10 @@ def solveSokoban_elementary(puzzleFileName, timeLimit = None):
 
         answer = astar_search(soko_problem)
         return answer
+
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-def testSolver(puzzleFileName):
-    soko_problem = SokobanPuzzle(puzzleFileName)
-    answer = iterative_deepening_search(soko_problem)
-    return answer
+
 
 def solveSokoban_macro(puzzleFileName, timeLimit = None):
         """
@@ -1052,4 +1174,12 @@ def solveSokoban_macro(puzzleFileName, timeLimit = None):
         soko = SokobanPuzzleMacro(puzzleFileName)
         answer = astar_search(soko)
         return answer
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+def test_solver(puzzleFileName):
+    soko_problem = SokobanPuzzleMacro(puzzleFileName)
+    answer = ida_star_search(soko_problem)
+    return answer
