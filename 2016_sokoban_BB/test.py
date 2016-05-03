@@ -14,6 +14,8 @@ s2 = SokobanPuzzleMacro(path + "/warehouse_05.txt")
 s3 = SokobanPuzzleMacro(path + "/warehouse_33.txt")
 s4 = SokobanPuzzleMacro(path + "/warehouse_69.txt")
 
+print tabooCells(path + "/warehouse_07.txt")
+
 n1 = Node(s1.initial)
 
 # actions = s1.actions(s1.initial)

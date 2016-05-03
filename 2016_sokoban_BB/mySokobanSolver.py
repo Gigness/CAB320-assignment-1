@@ -293,7 +293,7 @@ class SokobanPuzzle(Problem):
                     actions.append(node.action)
             return actions
 
-    def __dead_state__(self, (new_b_x, new_b_y), state):
+    def dynamic_dead_lock(self, (new_b_x, new_b_y), state):
         """
         Check if pushing a box, will lead to it being adjacent to another box.
         Rendering both boxes immovable.
@@ -352,6 +352,13 @@ class SokobanPuzzleMacro(SokobanPuzzle):
             b_y = w_y
             if (b_x_left, b_y) not in self.warehouse.walls and (b_x_left, b_y) not in state_of_boxes\
                     and (b_x_left, b_y) not in self.taboo:
+                # TODO
+                # Ok, the box won't be pushed in a taboo state or wall or another box
+                # lets check if it creates a dynamic dead state
+                    #  box in question: b_x_left, b_y
+                    #  get adjacent box b_x_left, b_y - 1, b_x_left, b_y + 1
+                    #  
+
                 meaningful_actions.append("Left")
                 # return True
         if (w_x_right, w_y) in state_of_boxes:
@@ -467,7 +474,6 @@ class SokobanPuzzleMacro(SokobanPuzzle):
                     macro_action = self.get_macro_actions_list(target_loc, (w_x, w_y), state)
                     if macro_action is not None:
                         actions.append(self.unpack_macro_action(macro_action))
-
         return actions
 
     def graveyard(self):
@@ -618,7 +624,7 @@ class SokobanPuzzleMacro(SokobanPuzzle):
 
             # print path
             # print the solution
-            print "Solution takes {0} steps from the initial state".format(len(path)-1)
+            steps = 0
             print path[0].state
             print "to the goal state"
             print path[-1].state
@@ -627,11 +633,14 @@ class SokobanPuzzleMacro(SokobanPuzzle):
                 if node.action is not None:
                     if isinstance(node.action, list):
                         for action in node.action:
+                            steps += 1
                             print "{0}".format(action)
                             actions.append(action)
                     else:
                         print "{0}".format(node.action)
                         actions.append(node.action)
+                        steps += 1
+            print "Solution takes {0} steps from the initial state".format(steps)
             return actions
 
 
