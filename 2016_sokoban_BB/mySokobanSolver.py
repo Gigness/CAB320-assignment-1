@@ -508,6 +508,7 @@ class SokobanPuzzleMacro(SokobanPuzzle):
                                     dead_lock = True
                     if not dead_lock:
                         meaningful_actions.append("Down")
+        # print meaningful_actions
         return meaningful_actions
 
     def get_macro_end_points(self, box, worker, state):
@@ -597,48 +598,6 @@ class SokobanPuzzleMacro(SokobanPuzzle):
                     if macro_action is not None:
                         actions.append(self.unpack_macro_action(macro_action))
         return actions
-
-    def graveyard(self):
-        pass
-        # archived actions
-        # def actions(self, state):
-        #     """
-        #     Case 1: worker is adjacent to a moveable box, this will result in a normal action
-        #     Case 2: worker is not adjacent to a moveable box, this will result in a macro action
-        #     :param state:
-        #     :return:
-        #     """
-        #     state = list(state)
-        #     actions = list()
-        #
-        #     w_x, w_y = state.pop(0)
-        #
-        #     actions_move_boxes = self.worker_adjacent_to_move_able_box((w_x, w_y), state)
-        #
-        #     if not actions_move_boxes:
-        #         for box in state:
-        #             macro_end_points = self.get_macro_end_points(box, (w_x, w_y), state)
-        #             # solve the sub problem to get to each macro end point
-        #             if macro_end_points:
-        #                 for target_loc in macro_end_points:
-        #                     macro_action = self.get_macro_actions_list(target_loc, (w_x, w_y), state)
-        #                     if macro_action is not None:
-        #                         actions.append(self.unpack_macro_action(macro_action))
-        #     else:  # we are adjacent to a box which is move able to a legal position
-        #         # We only care about moving the box
-        #         # ^^^ dangerous logic up here, miss out on essential paths to solving the problem
-        #         # w_x_left = w_x - 1
-        #         # w_x_right = w_x + 1
-        #         # w_y_up = w_y - 1
-        #         # w_y_down = w_y + 1
-        #
-        #         for action in actions_move_boxes:
-        #             actions.append(action)
-        #
-        #             # for that specific box
-        #             # get more macro end points
-        #
-        #     return actions
 
     def result(self, state, action):
         # check for a macro action

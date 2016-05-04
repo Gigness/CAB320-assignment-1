@@ -382,6 +382,7 @@ def best_first_graph_search(problem, f):
     while frontier:
         # print frontier
         node = frontier.pop()
+        # print node
         if problem.goal_test(node.state):
             return node
         explored.add(node.state)
@@ -575,14 +576,6 @@ def ida_star_search_limited(problem, limit):
             return result
 
 
-
-
-
-
-
-
-
-
-
 #______________________________________________________________________________
 #
+
