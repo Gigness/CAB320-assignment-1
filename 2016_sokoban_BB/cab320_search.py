@@ -383,7 +383,9 @@ def best_first_graph_search(problem, f):
         # print frontier
         node = frontier.pop()
         # print node
+
         if problem.goal_test(node.state):
+            print len(explored)
             return node
         explored.add(node.state)
         for child in node.expand(problem):

@@ -4,7 +4,7 @@ import time
 
 def main():
     path = "/Users/Gigness/CAB320/assignment_one/2016_sokoban_bb/warehouses"
-    warehouse = path + "/warehouse_43.txt"
+    warehouse = path + "/warehouse_01.txt"
 
     s = SokobanPuzzle(warehouse)
 
@@ -59,6 +59,6 @@ def macro_ida_star():
     print "Solver took ", t1-t0, " seconds"
 
 if __name__ == "__main__":
-    macro()
-    # main()
+    # macro()
+    main()
     # macro_ida_star()

@@ -13,6 +13,11 @@ class SokobanPuzzle(Problem):
     """
 
     def __init__(self, puzzleFileName):
+        """
+
+        :param puzzleFileName:
+        :return:
+        """
         self.warehouse = cab320_sokoban.Warehouse()
         self.warehouse.read_warehouse_file(puzzleFileName)
         self.goal = self.getGoalState()
@@ -26,7 +31,9 @@ class SokobanPuzzle(Problem):
     def goal_test(self, state):
         """
         Checks whether the current box positions are on the targets
-        :param state: current state of warehouse, first tuple is the worker
+        :param state: current state of warehouse
+            - first tuple is the worker
+            - preceding tuples are boxes
         :return: boolean
         """
         state = list(state)
@@ -38,7 +45,7 @@ class SokobanPuzzle(Problem):
 
     def actions(self, state):
         """
-        State is a tuple of tuples where the first element is the worker.
+        State is a tuple of tuples where the first element is always the worker.
         Preceding elements represent boxes.
         :param state:
         :return: actions list of legal actions from the current state
@@ -53,13 +60,13 @@ class SokobanPuzzle(Problem):
         w_y_up = w_y - 1
         w_y_down = w_y + 1
 
-        # check if left move is legal
-        if (w_x_left, w_y) not in self.warehouse.walls:  # no walls
-            if (w_x_left, w_y) in state:  # box in new position?
+        # check if a left move is legal
+        if (w_x_left, w_y) not in self.warehouse.walls:  # check walls
+            if (w_x_left, w_y) in state:
                 (b_x, b_y) = (w_x_left, w_y)
                 b_x_left = b_x - 1
                 if (b_x_left, b_y) not in self.warehouse.walls and (b_x_left, b_y) not in state\
-                        and (b_x_left, b_y) not in self.taboo:  # box not pushed in taboo/wall/another_box
+                        and (b_x_left, b_y) not in self.taboo:  # is the boxed pushing into a taboo/wall/another_box
                     actions.append('Left')
             else:
                 actions.append('Left')
@@ -94,16 +101,21 @@ class SokobanPuzzle(Problem):
         return actions
 
     def result(self, state, action):
-        # convert state to list, separate worker form boxes
+        """
+
+        :param state:
+        :param action:
+        :return:
+        """
         state = list(state)
-        (w_x, w_y) = state.pop(0)  # Pop out the worker
+        (w_x, w_y) = state.pop(0)  # Pop out the worker position
 
         if action == 'Left':
             w_x1 = w_x - 1
             if (w_x1, w_y) in state:
                 (b_x, b_y) = (w_x1, w_y)
                 state[state.index((b_x, b_y))] = (b_x - 1, b_y)  # Move pushed box left
-            state.insert(0, (w_x1, w_y))
+            state.insert(0, (w_x1, w_y))  # insert the worker back into the state
 
         elif action == 'Right':
             w_x1 = w_x + 1
@@ -127,7 +139,10 @@ class SokobanPuzzle(Problem):
         return tuple(state)
 
     def getGoalState(self):
-        #
+        """
+
+        :return:
+        """
         goalState = self.warehouse.visualize()
         goalState = goalState.replace("$", " ").replace(".", "*").replace("@", " ")
         return goalState
