@@ -1,40 +1,46 @@
-from cab320_search import Problem, astar_search, ida_star_search, ida_star_search_limited
-
+from cab320_search import Problem, astar_search, ida_star_search
 import cab320_sokoban
-
-
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 
 class SokobanPuzzle(Problem):
     """
     Class to represent a Sokoban puzzle.
     Your implementation should be compatible with the
     search functions of the module  cab320_search
+
+    States are represented using a tuple of the following form:
+        ((worker_x, worker_y), (box1_x, box1_y), ... (boxN_x, boxN_y))
+        the worker is always in the 0th position
     """
 
     def __init__(self, puzzleFileName):
         """
+        Important instance variables
+        warehouse: warehouse representation from cab320_sokoban
+        goal: string representation of the goal state
+        initial: tuple showing position of the worker and the boxes
+            - ((w_x, w_y), (b1_x, b1_y), ..., (bN_x, bN_y))
+        taboo: coordinates of the taboo cells
 
-        :param puzzleFileName:
-        :return:
+        :param puzzleFileName: warehouse file name to be loaded
         """
         self.warehouse = cab320_sokoban.Warehouse()
         self.warehouse.read_warehouse_file(puzzleFileName)
         self.goal = self.getGoalState()
         # Extract worker and box locations for initial state tuple
         initial = list(self.warehouse.boxes)
-        # Worker at 0 tuple pos
-        initial.insert(0, self.warehouse.worker)
+        initial.insert(0, self.warehouse.worker)  # Worker at 0 tuple pos
         self.initial = tuple(initial)
         self.taboo = self.getTabooCells()
 
     def goal_test(self, state):
         """
-        Checks whether the current box positions are on the targets
+        Checks whether the given state of boxes are on the targets
         :param state: current state of warehouse
             - first tuple is the worker
             - preceding tuples are boxes
-        :return: boolean
+        :return boolean: True or False
         """
         state = list(state)
         del state[0]  # Remove the worker, only need to check boxes
@@ -45,9 +51,14 @@ class SokobanPuzzle(Problem):
 
     def actions(self, state):
         """
-        State is a tuple of tuples where the first element is always the worker.
-        Preceding elements represent boxes.
-        :param state:
+        Determines which actions are viable for the worker in the current state.
+        Available actions are Left, Right, Up and Down.
+            - checks if the worker will move into a wall
+            - checks if the worker will be pushing a box
+                - if the pushed box will be pushed onto a wall (illegal)
+                - if the pushed box will be in a taboo cell (illegal)
+                - if the pushed box will be pushed onto another box (illegal)
+        :param state: Current state of the warehouse
         :return: actions list of legal actions from the current state
         """
         state = list(state)
@@ -97,15 +108,16 @@ class SokobanPuzzle(Problem):
                     actions.append('Up')
             else:
                 actions.append('Up')
-
         return actions
 
     def result(self, state, action):
         """
-
-        :param state:
-        :param action:
-        :return:
+        Given a legal action, return a new state after the action is performed.
+        Exception is thrown if unknown action is given.
+        The legality of actions are determined in SokobanPuzzle.actions method.
+        :param state: current state of the warehouse
+        :param action: legal action string (Left, Right, Up, Down)
+        :return state: tuple of new warehouse state
         """
         state = list(state)
         (w_x, w_y) = state.pop(0)  # Pop out the worker position
@@ -115,7 +127,7 @@ class SokobanPuzzle(Problem):
             if (w_x1, w_y) in state:
                 (b_x, b_y) = (w_x1, w_y)
                 state[state.index((b_x, b_y))] = (b_x - 1, b_y)  # Move pushed box left
-            state.insert(0, (w_x1, w_y))  # insert the worker back into the state
+            state.insert(0, (w_x1, w_y))  # Insert the worker back into the state
 
         elif action == 'Right':
             w_x1 = w_x + 1
@@ -136,18 +148,57 @@ class SokobanPuzzle(Problem):
                 (b_x, b_y) = (w_x, w_y1)
                 state[state.index((b_x, b_y))] = (b_x, b_y - 1)  # Move pushed box left
             state.insert(0, (w_x, w_y1))
+        else:
+            raise ValueError("Invalid action given")
         return tuple(state)
 
     def getGoalState(self):
         """
-
-        :return:
+        Show the goal state of the warehouse.
+        :return goalState: string representation of the goal warehouse
         """
         goalState = self.warehouse.visualize()
         goalState = goalState.replace("$", " ").replace(".", "*").replace("@", " ")
         return goalState
 
     def getTabooCells(self):
+        """
+        Identify taboo cells in the warehouse by scanning each row 
+        and each column for particular characteristics.
+
+        Characteristics of rows and columns which should be marked as taboo:
+
+            1. #XXXXXXX#    Bounded sections (rows)
+               #########
+
+            2. #X     X#    Corner sections (rows and columns)
+               #####  ##
+
+            3. ###     Bounded sections (columns)
+               #X
+               #X
+               #X
+               ###
+
+            4. #X. . .X#    Tricky sections because of targets (rows)
+               #########
+
+        The taboo cells method works by:
+        1. Determining the start and end coordinates of the walls.
+        2. Going through each row starting at the initial + 1 row (because the first row is not accessible).
+           Ending at the nth - 1 row (last row is not accessible).
+        3. Identifying the walls in the row above, row below and in the current row.
+        4. Identifying which positions in the current row are accessible to the boxes (not blocked by walls)
+        5. Creates a list of continous accessible segments.
+            i.e  current row = #  #   # produces [[2, 3], [5, 6, 7]]
+        6. Checks whether each segment forms a "bounded section"
+        7. Checks whether the segment has "targets"
+        8. Checks for corner sections
+        9. Using the characteristics described above, can determine a taboo cell
+        10. This is repeated for each column in the warehouse
+
+        :return taboo_targets_removed: tuple of taboo cells
+        """
         walls_y = [b for (a,b) in self.warehouse.walls]
         walls_x = [a for (a,b) in self.warehouse.walls]
 
@@ -277,11 +328,20 @@ class SokobanPuzzle(Problem):
                             if (col,pos) not in taboo:
                                 taboo.append((col, pos))
 
-            taboo_with_targets = [t for t in taboo if t not in self.warehouse.targets]
+            taboo_targets_removed = [t for t in taboo if t not in self.warehouse.targets]
 
-        return taboo_with_targets
+        return taboo_targets_removed
 
     def path_cost(self, c, state1, action, state2):
+        """
+        Calculates path cost.
+        For elementary solver this is simply the parent path cost + 1.
+        :param c: Parents path cost
+        :param state1: Current state
+        :param action: action performed
+        :param state2: new state
+        :return: path cost performing given action from state1 to state2
+        """
         return c + 1
 
     def print_solution(self, goal_node):
@@ -307,28 +367,22 @@ class SokobanPuzzle(Problem):
                     actions.append(node.action)
             return actions
 
-    def dynamic_dead_lock(self, (new_b_x, new_b_y), state):
-        """
-        Check if pushing a box, will lead to it being adjacent to another box.
-        Rendering both boxes immovable.
-        :param state:
-        :return:
-        """
-
     def h(self, node):
         """
-        Manhattan distances for boxes to targets
-        :param node:
-        :return:
+        Manhattan distances between boxes to targets.
+        Calculates minimum distance between a box and the closest target.
+        Does not take into account multiple boxes matched to the same target.
+        :param node: node containing the state
+        :return dist: Total Manhattan distances heuristic
         """
 
         state = list(node.state)
-        state.pop(0)  # remove the worker
+        state.pop(0)
         dist = 0
 
         for i in xrange(len(state)):
             dist_each_box = []
-            if state[i] not in self.warehouse.targets:
+            if state[i] not in self.warehouse.targets:  # no point checking the boxes already on targets
                 for j in xrange(len(self.warehouse.targets)):
                     b_x, b_y = state[i]
                     t_x, t_y = self.warehouse.targets[j]
@@ -342,13 +396,31 @@ class SokobanPuzzleMacro(SokobanPuzzle):
 
     def worker_adjacent_to_move_able_box(self, worker, state_of_boxes):
         """
-        Is the worker near a moveable box?
-            If so, don't need to perform a macro action
-        Else
-            Need to get in position to a moveable box
+        This method firstly identifies whether the worker is adjacent to a box.
+        If the worker is adjacent to a box, it will check if pushing that box is viable
+        and whether it will cause a "dynamic deadlock" state.
+
+        If pushing the box results in a viable state (no deadlocks, walls taboo
+        other boxes) then the action is appended to a list.
+        Potential actions are Right, Left, Up, Down.
+
+
+            "dynamic deadlock"
+
+            1.    @      Pushing the box down will lock up all three boxes (Bad move)
+                  $
+               # $ $
+               #######
+
+            2. ##       Special case, pushing the box onto a target (Good move)
+               #*
+               #.$@
+               #
+
+
         :param worker: worker coords
         :param state_of_boxes: coordinates of all boxes
-        :return True or False
+        :return meaningful_actions: list of actions which will push the box
         """
         w_x, w_y = worker
         w_x_left = w_x - 1
@@ -356,18 +428,18 @@ class SokobanPuzzleMacro(SokobanPuzzle):
         w_y_up = w_y - 1
         w_y_down = w_y + 1
 
-        # meaningful action means a box is being moved
+        # meaningful action means a box is being pushed
         meaningful_actions = []
 
-        # left of worker has a box
-        if (w_x_left, w_y) in state_of_boxes:
-            # check if that box can be moved
+        if (w_x_left, w_y) in state_of_boxes:  # if left of the worker has a box
             b_x_left = w_x_left - 1
             b_y = w_y
+
+            # check if that box can be moved to the left
             if (b_x_left, b_y) not in self.warehouse.walls and (b_x_left, b_y) not in state_of_boxes\
                     and (b_x_left, b_y) not in self.taboo:
 
-                # Check if it moving the box will cause a dynamic dead lock
+                # Check if moving the box will cause a dynamic dead lock
                 adj_box_above = (b_x_left, b_y - 1)
                 adj_box_below =(b_x_left, b_y + 1)
 
@@ -400,7 +472,7 @@ class SokobanPuzzleMacro(SokobanPuzzle):
                                 dead_lock = True
                     if not dead_lock:
                         meaningful_actions.append("Left")
-
+        # check to the right of the worker for a box
         if (w_x_right, w_y) in state_of_boxes:
             # check if that box can be moved
             b_x_right = w_x_right + 1
@@ -528,23 +600,43 @@ class SokobanPuzzleMacro(SokobanPuzzle):
 
     def get_macro_end_points(self, box, worker, state):
         """
+        A "macro end point" is a position in the warehouse which is adjacent to a box.
+        Identifying "macro end points" will allow for smaller search trees at the cost of greater
+        computational complexity when selecting actions.
+        In order to determine the viability of each macro end point,
+        the position opposite to the end point is analysed.
+        This opposite position is where the box will be after the worker has pushed it.
+        The opposite position is checked for walls, other boxes, taboo cells and
+        whether it will cause a dynamic dead lock.
 
-        :param state:
+        "macro end point example"
+
+            #########       The '%' symbols represent macro end points which should
+            #     % #       be investigated for their viability.
+            #    %$%#
+            # @   % #
+            #       #
+            #########
+
+
+        :param state: state of the warehouse
         :param box: coords of a moveable box
         :param worker: coords of the worker
-        :return: list of coords for a worker to move to in order to start moving this box
+        :return: list of "macro end points" for a moveable box
         """
 
         b_x, b_y = box
         w_x, w_y = worker
 
+        # adjacent box positions
         b_x_left = b_x - 1
         b_x_right = b_x + 1
         b_y_up = b_y - 1
         b_y_down = b_y + 1
 
         macro_end_point = list()
-        # No walls or boxes on the left or right of the box of interest
+
+        # check for walls/boxes to the left and right of the box of interest
         if (b_x_left, b_y) not in self.warehouse.walls and (b_x_left, b_y) not in state\
                 and (b_x_right, b_y) not in self.warehouse.walls and (b_x_right, b_y) not in state:
 
@@ -557,7 +649,6 @@ class SokobanPuzzleMacro(SokobanPuzzle):
 
             if (b_x_right, b_y) != (w_x, w_y):
 
-                # will pushing it left, lead to taboo cells etc?
                 if (b_x_left, b_y) not in self.taboo:
                     macro_end_point.append((b_x_right, b_y))
 
@@ -578,32 +669,43 @@ class SokobanPuzzleMacro(SokobanPuzzle):
 
     def get_macro_actions_list(self, macro_end_point, worker, state):
         """
-        Solves a sub problem, using astar
+        Determines an optimal path between the worker and a "macro end point".
+        Uses astar search with a manhattan distance heuristc between the worker and the target.
+        Refer to the ShortestPath problem class for details.
 
+        :param macro_end_point: target location adjacent to a box
+        :param worker: start position of the worker
         :param state: current state of the warehouse
-        :return: list of actions
+        :return: list of actions or None
         """
         sub_problem = ShortestPath(worker, self.warehouse.walls, state, macro_end_point)
         return astar_search(sub_problem)
 
     def actions(self, state):
         """
-        Case 1: worker is adjacent to a moveable box, this will result in a normal action
-        Case 2: worker is not adjacent to a moveable box, this will result in a macro action
-        :param state:
-        :return:
+        Identify viable moves for the worker.
+        1. Checks if a worker is adjacent to a box and determines if pushing
+            that box is viable
+        2. Identifies viable "macro end points" for every box and obtains
+            the optimal actions in order to move the worker to the end point
+
+        :param state: current warehouse state
+        :return: List of viable actions (may include macro or single actions)
         """
         state = list(state)
         actions = list()
 
         w_x, w_y = state.pop(0)
 
+        # Check if the worker is adjacent to a box, get any viable actions that will push the box
         actions_move_boxes = self.worker_adjacent_to_move_able_box((w_x, w_y), state)
 
+        # if there are any actions which move the box, add it to the list
         if actions_move_boxes:
             for action in actions_move_boxes:
                 actions.append(action)
 
+        # Get suitable macro actions to every box
         for box in state:
             macro_end_points = self.get_macro_end_points(box, (w_x, w_y), state)
             # solve the sub problem to get to each macro end point
@@ -615,9 +717,19 @@ class SokobanPuzzleMacro(SokobanPuzzle):
         return actions
 
     def result(self, state, action):
-        # check for a macro action
+        """
+        Given an action (macro or normal), return a new state which reflects the outcome
+        of the given action.
+
+        :param state: current state of the warehouse
+        :param action: string or a list of strings ("Left", "Right", "Up", "Down")
+        :return state: new state of the warehouse
+        """
+
         state = list(state)
         w_x, w_y = state.pop(0)
+
+        # check for a macro action
         if isinstance(action, list):
             for micro_move in action:
                 if micro_move == 'Left':
@@ -632,18 +744,13 @@ class SokobanPuzzleMacro(SokobanPuzzle):
                     raise ValueError("Invalid Micro Move")
             state.insert(0, (w_x, w_y))
         else:
-            # apparently, this is a meaningful move
-            # so the worker will be pushing a box
-
-            # box being pushed
-
+            # perform a single action
             if action == 'Left':
                 w_x1 = w_x - 1
                 if (w_x1, w_y) in state:
                     (b_x, b_y) = (w_x1, w_y)
                     state[state.index((b_x, b_y))] = (b_x - 1, b_y)  # Move pushed box left
                 state.insert(0, (w_x1, w_y))
-
             elif action == 'Right':
                 w_x1 = w_x + 1
                 if (w_x1, w_y) in state:
@@ -656,70 +763,56 @@ class SokobanPuzzleMacro(SokobanPuzzle):
                     (b_x, b_y) = (w_x, w_y1)
                     state[state.index((b_x, b_y))] = (b_x, b_y + 1)  # Move pushed box left
                 state.insert(0, (w_x, w_y1))
-
             elif action == 'Up':
                 w_y1 = w_y - 1
                 if (w_x, w_y1) in state:
                     (b_x, b_y) = (w_x, w_y1)
                     state[state.index((b_x, b_y))] = (b_x, b_y - 1)  # Move pushed box left
                 state.insert(0, (w_x, w_y1))
-            # if action == 'Left':
-            #     w_x -= 1
-            #     # box to be pushed is: w_x, w_y
-            #     state[state.index((w_x, w_y))] = w_x - 1, w_y
-            #
-            # elif action == 'Right':
-            #     w_x += 1
-            #     state[state.index((w_x, w_y))] = w_x + 1, w_y
-            #
-            # elif action == 'Up':
-            #     w_y -= 1
-            #     state[state.index((w_x, w_y))] = w_x, w_y - 1
-            # elif action == 'Down':
-            #     w_y += 1
-            #     state[state.index((w_x, w_y))] = w_x, w_y + 1
-            # else:
-            #     raise ValueError("Invalid Action")
-            # state.insert(0, (w_x, w_y))
         return tuple(state)
 
     def unpack_macro_action(self, node):
         """
-        Given the solution of a sub problem, return a list of "Macro" actions
-        :param node:
-        :return:
+        Returns a list of actions from a solution node of a ShortestPath problem
+        :param node: solution node to a ShortestPath problem
+        :return: list of actions or None
         """
         actions = []
         if node is None:
             return None
         else:
-            # path is list of nodes from initial state (root of the tree)
-            # to the goal_node
             path = node.path()
-            # print the solution
             for node in path:
                 if node.action is not None:
                     actions.append(node.action)
             return actions
 
     def path_cost(self, c, state1, action, state2):
+        """
+        Calculates the path cost.
+        If a macro action was used, the path cost is increased according to
+        the number of actions given.
+        If a single action is given it is simply the parent path cost + 1.
+
+        :param c: parent path cost
+        :param state1: parent state
+        :param action: action(s) taken to state2
+        :param state2: child state
+        :return c: path cost from state1 to state2 by given action
+        """
         if isinstance(action, list):
             return len(action) + c
         return c + 1
 
     def print_solution(self, goal_node):
         actions = []
-        if goal_node == None:
+        if goal_node is None:
             print "No solution found"
         elif goal_node == 'cuttoff':
             print "cuttoff"
         else:
             # path is list of nodes from initial state (root of the tree)
-            # to the goal_node
             path = goal_node.path()
-
-            # print path
-            # print the solution
             steps = 0
             print path[0].state
             print "to the goal state"
