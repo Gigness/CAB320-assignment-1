@@ -841,11 +841,12 @@ class ShortestPath(Problem):
 
     def __init__(self, worker, walls, boxes, target_location):
         """
-        
-        :param worker: 
-        :param walls: 
-        :param boxes: 
-        :param target_location: 
+        State representation is simply the worker's position.
+
+        :param worker: worker position as a tuple (x, y), also the initial state
+        :param walls: tuples of the warehouse wall positions
+        :param boxes: tuples of all the boxes
+        :param target_location: location for worker to attempt to travel to
         :return: 
         """
         self.initial = worker
@@ -853,10 +854,11 @@ class ShortestPath(Problem):
         self.boxes = boxes
         self.target_location = target_location
 
-
     def actions(self, state):
         """
-        :param state: tuple of worker coords (w_x, w_y)
+        Action generator for shortest path problem.
+
+        :param state: tuple of worker coords (x, y)
         :return actions: list of legal actions for the worker
         """
 
@@ -869,7 +871,7 @@ class ShortestPath(Problem):
         w_y_down = w_y + 1
         
         # check if left move is legal
-        if (w_x_left, w_y) not in self.walls and (w_x_left, w_y) not in self.boxes:  # no walls and boxes
+        if (w_x_left, w_y) not in self.walls and (w_x_left, w_y) not in self.boxes:
                 actions.append('Left')
         if (w_x_right, w_y) not in self.walls and (w_x_right, w_y) not in self.boxes:
                 actions.append('Right')
@@ -881,10 +883,11 @@ class ShortestPath(Problem):
 
     def result(self, state, action):
         """
+        Generates new states from actions.
 
         :param state:
-        :param action:
-        :return:
+        :param action: Viable action the worker is taking
+        :return: new state of the worker (x, y)
         """
 
         (w_x, w_y) = state
@@ -900,13 +903,20 @@ class ShortestPath(Problem):
             raise ValueError("Invalid action given")
 
     def goal_test(self, state):
+        """
+        Goal test
+
+        :param state:
+        :return: boolean
+        """
         return state == self.target_location
 
     def h(self, node):
         """
-        Manhattan distance
+        Manhattan distance of worker to the target
+
         :param node:
-        :return:
+        :return dist: calculated manhattan distance
         """
         (w_x, w_y) = node.state
         (t_x, t_y) = self.target_location
@@ -977,8 +987,6 @@ def checkActions(puzzleFileName, actionSequence):
                         boxes[boxes.index((s_x0, s_y0))] = (s_x1, s_y0)
                 else:
                     w_x = w_x1
-
-                # print soko.warehouse.visualize()
             elif action is "Down":
                 # Check what is to the "Left"
                 w_y1 = w_y0 + 1
@@ -994,12 +1002,8 @@ def checkActions(puzzleFileName, actionSequence):
                     else:
                         w_y = w_y1
                         boxes[boxes.index((s_x0, s_y0))] = (s_x0, s_y1)
-
                 else:
                     w_y = w_y1
-
-
-                # print soko.warehouse.visualize()
             elif action is "Up":
                 w_y1 = w_y0 - 1
                 if (w_x0, w_y1) in walls:
@@ -1205,10 +1209,23 @@ def solveSokoban_elementary(puzzleFileName, timeLimit = None):
                 For example, ['Left', 'Down', Down','Right', 'Up', 'Down']
                 If the puzzle is already in a goal state, simply return []
         """
-        soko_problem = SokobanPuzzle(puzzleFileName)
 
-        answer = astar_search(soko_problem)
-        return answer
+        soko_problem = SokobanPuzzle(puzzleFileName)
+        sol = astar_search(soko_problem)
+        actions = []
+
+        if sol is None:
+            return ['Impossible']
+        else:
+            for node in sol.path():
+                if node.action is not None:
+                    if isinstance(node.action, list):
+                        for action in node.action:
+                            actions.append(action)
+                    else:
+                        actions.append(node.action)
+
+        return actions
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -1239,8 +1256,22 @@ def solveSokoban_macro(puzzleFileName, timeLimit = None):
         """
 
         soko = SokobanPuzzleMacro(puzzleFileName)
-        answer = astar_search(soko)
-        return answer
+        sol = astar_search(soko)
+
+        actions = []
+
+        if sol is None:
+            return ['Impossible']
+        else:
+            for node in sol.path():
+                if node.action is not None:
+                    if isinstance(node.action, list):
+                        for action in node.action:
+                            actions.append(action)
+                    else:
+                        actions.append(node.action)
+
+        return actions
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

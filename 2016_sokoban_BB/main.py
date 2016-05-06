@@ -10,18 +10,15 @@ def main():
 
     t0 = time.time()
     sol = solveSokoban_elementary(warehouse)
-
     t1 = time.time()
-
-    actions = s.print_solution(sol)
-
-    print checkActions(warehouse, actions)
+    print sol
+    print checkActions(warehouse, sol)
     print "Solver took ", t1-t0, " seconds"
 
 
 def macro():
     path = "/Users/Gigness/CAB320/assignment_one/2016_sokoban_bb/warehouses"
-    warehouse = path + "/warehouse_121.txt"
+    warehouse = path + "/warehouse_103.txt"
     s = SokobanPuzzleMacro(warehouse)
 
     # print s.taboo
@@ -32,9 +29,7 @@ def macro():
 
     print sol
 
-    actions = s.print_solution(sol)
-    #
-    print checkActions(warehouse, actions)
+    print checkActions(warehouse, sol)
     print "Solver took ", t1-t0, " seconds"
 
 
