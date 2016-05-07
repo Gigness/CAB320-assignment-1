@@ -22,6 +22,7 @@ Simplified code, and added further comments
 import collections  # for dequeue
 import heapq
 import sys
+import time
 
 
 # Examine this function after completing "cab320/wk03/challenge 2"
@@ -398,6 +399,41 @@ def best_first_graph_search(problem, f):
     return None
 
 
+def best_first_graph_search_timeout(problem, f, timeLimit=None):
+    """
+    best_first_graph_search implemented with a timeout feature.
+    Checks if the time limit is exceeded before a frontier node is expanded.
+    """
+    # set up cache-able function f
+    t0 = time.time()
+    f = memoize(f)
+
+    node = Node(problem.initial)
+
+    if problem.goal_test(node.state):
+        return node
+    frontier = PriorityQueue(f)
+    frontier.append(node)
+    explored = set()
+    while frontier:
+        if (timeLimit is not None) and (time.time() - t0) > timeLimit:
+            return 'timeout'
+        node = frontier.pop()
+
+        if problem.goal_test(node.state):
+            return node
+        explored.add(node.state)
+        for child in node.expand(problem):
+            if child.state not in explored and child not in frontier:
+                frontier.append(child)
+            elif child in frontier:
+                incumbent = frontier[child]  # incumbent is a node
+                if f(child) < f(incumbent):
+                    del frontier[incumbent]
+                    frontier.append(child)
+    return None
+
+
 def uniform_cost_search(problem):
     """[Fig. 3.14]"""
     return best_first_graph_search(problem, lambda node: node.path_cost)
@@ -444,6 +480,14 @@ greedy_best_first_graph_search = best_first_graph_search
 # Greedy best-first search is accomplished by specifying f(n) = h(n).
 
 
+def astar_search_timeout(problem, h=None, timeLimit=None):
+    """
+    same as astar_search but with Timeout functionality
+    """
+    h = memoize(h or problem.h)
+    return best_first_graph_search_timeout(problem, lambda n: n.path_cost + h(n), timeLimit=timeLimit)
+
+
 def astar_search(problem, h=None):
     """A* search with f(n) = g(n)+h(n).
     You need to specify the h function when you call astar_search, or
@@ -453,7 +497,9 @@ def astar_search(problem, h=None):
 
 
 def ida_star_search_elementary(problem):
-
+    """
+    ida* search implemented by increasing the depth bound by 1 each time.
+    """
     for f_val in xrange(sys.maxint):
         result = a_star_limited_search(problem, f_val)
         if result != 'cutoff':
@@ -493,21 +539,33 @@ def a_star_limited_search(problem, f_val=50):
 
 
 def ida_star_search(problem):
+    """
+    IDA* implemented from Wikipedia pseudo code.
+    https://en.wikipedia.org/wiki/Iterative_deepening_A*
+
+    :param problem:
+    :return: solution node or None
+    """
 
     def a_star_bounded_search(node, bound):
+        """
+        Recursive implementation of a depth bounded a* search
+
+        :param node: initial node
+        :param bound: limit of f(n) values
+        :return: Node or new bound limit
+        """
+
+        # check the f value of the node
         f_val = f(node)
 
+        # check if its a goal or if its f value exceeds the bound
         if problem.goal_test(node.state):
             return node
         elif f_val > bound:
             return f_val
 
-        # if f_val > bound:
-        #     return f_val
-        # elif problem.goal_test(node.state):
-        #     return node
-
-        f_min = sys.maxint
+        f_min = sys.maxint  # set the current f_min to infinity
 
         for child in node.expand(problem):
             t = a_star_bounded_search(child, bound)
@@ -530,13 +588,19 @@ def ida_star_search(problem):
         if result == sys.maxint:  # no solution exists
             return None
         elif isinstance(result, int):
-            bound = result
+            bound = result  # cuttoff, set a new bound val
         else:
             return result
 
 
 def ida_star_search_limited(problem, limit):
-
+    """
+    Test function to run ida* to a given depth bound.
+    the depth bound is the f(n) value of a node.
+    :param problem:
+    :param limit:
+    :return:
+    """
     def a_star_bounded_search(node, bound):
         f_val = f(node)
         # print node, " f: ", f_val, " , bound: ", bound

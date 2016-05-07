@@ -2,8 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="545eca5b-4f3d-4d10-94c0-a7873006102b" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/2016_sokoban_BB/test" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/2016_sokoban_BB/test_suite/test_sokobanPuzzle.py" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/2016_sokoban_BB/cab320_search.py" afterPath="$PROJECT_DIR$/2016_sokoban_BB/cab320_search.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/2016_sokoban_BB/main.py" afterPath="$PROJECT_DIR$/2016_sokoban_BB/main.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/2016_sokoban_BB/mySokobanSolver.py" afterPath="$PROJECT_DIR$/2016_sokoban_BB/mySokobanSolver.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/2016_sokoban_BB/test.py" afterPath="$PROJECT_DIR$/2016_sokoban_BB/test.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/2016_sokoban_BB/warehouses/warehouse_19.txt" afterPath="$PROJECT_DIR$/2016_sokoban_BB/warehouses/warehouse_19.txt" />
     </list>
     <ignored path="assignment_one.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -23,198 +29,55 @@
     <favorites_list name="assignment_one" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5109232">
-      <split-first>
-        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="mySokobanSolver.py" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/mySokobanSolver.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.46617916">
-                  <caret line="1025" column="0" selection-start-line="1025" selection-start-column="0" selection-end-line="1025" selection-end-column="0" />
-                  <folding>
-                    <element signature="e#0#64#0" expanded="true" />
-                    <element signature="e#203#16662#0" expanded="false" />
-                    <element signature="e#594#1420#0" expanded="false" />
-                    <element signature="e#1462#1934#0" expanded="false" />
-                    <element signature="e#1974#4687#0" expanded="false" />
-                    <element signature="e#4734#6427#0" expanded="false" />
-                    <element signature="e#6465#6753#0" expanded="false" />
-                    <element signature="e#6792#14399#0" expanded="false" />
-                    <element signature="e#14461#14817#0" expanded="false" />
-                    <element signature="e#14868#15715#0" expanded="false" />
-                    <element signature="e#15748#16662#0" expanded="false" />
-                    <element signature="e#16711#35692#0" expanded="false" />
-                    <element signature="e#16787#26273#0" expanded="false" />
-                    <element signature="e#26339#29107#0" expanded="false" />
-                    <element signature="e#29187#29781#0" expanded="false" />
-                    <element signature="e#29821#31283#0" expanded="false" />
-                    <element signature="e#31330#33462#0" expanded="false" />
-                    <element signature="e#33513#33975#0" expanded="false" />
-                    <element signature="e#34037#34590#0" expanded="false" />
-                    <element signature="e#34641#35692#0" expanded="false" />
-                    <element signature="e#35728#38454#0" expanded="false" />
-                    <element signature="e#35938#36429#0" expanded="false" />
-                    <element signature="e#36469#37392#0" expanded="false" />
-                    <element signature="e#37439#37970#0" expanded="false" />
-                    <element signature="e#38012#38138#0" expanded="false" />
-                    <element signature="e#38171#38452#0" expanded="false" />
-                    <element signature="e#38594#42599#0" expanded="false" />
-                    <element signature="e#42724#49924#0" expanded="false" />
-                    <element signature="e#50080#51405#0" expanded="false" />
-                    <element signature="e#51556#53114#0" expanded="false" />
-                    <element signature="e#53236#53346#0" expanded="false" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="cab320_search.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/cab320_search.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0">
-                  <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
-                  <folding>
-                    <element signature="e#652#942#0" expanded="false" />
-                    <element signature="e#765#891#0" expanded="false" />
-                    <element signature="e#975#1280#0" expanded="false" />
-                    <element signature="e#975#1168#1" expanded="false" />
-                    <element signature="e#1553#2295#0" expanded="false" />
-                    <element signature="e#1553#2161#1" expanded="false" />
-                    <element signature="e#2195#2220#0" expanded="false" />
-                    <element signature="e#2259#2295#0" expanded="false" />
-                    <element signature="e#2319#2461#0" expanded="false" />
-                    <element signature="e#2319#2447#1" expanded="false" />
-                    <element signature="e#2504#2789#0" expanded="false" />
-                    <element signature="e#2504#2630#1" expanded="false" />
-                    <element signature="e#2664#2696#0" expanded="false" />
-                    <element signature="e#2725#2789#0" expanded="false" />
-                    <element signature="e#2824#3913#0" expanded="false" />
-                    <element signature="e#2824#2966#1" expanded="false" />
-                    <element signature="e#3015#3045#0" expanded="false" />
-                    <element signature="e#3083#3127#0" expanded="false" />
-                    <element signature="e#3160#3178#0" expanded="false" />
-                    <element signature="e#3211#3229#0" expanded="false" />
-                    <element signature="e#3258#3387#0" expanded="false" />
-                    <element signature="e#3431#3529#0" expanded="false" />
-                    <element signature="e#3571#3707#0" expanded="false" />
-                    <element signature="e#3749#3913#0" expanded="false" />
-                    <element signature="e#4023#5911#0" expanded="false" />
-                    <element signature="e#4023#4306#1" expanded="false" />
-                    <element signature="e#4360#4591#0" expanded="false" />
-                    <element signature="e#4360#4534#1" expanded="false" />
-                    <element signature="e#4631#4915#0" expanded="false" />
-                    <element signature="e#4631#4881#1" expanded="false" />
-                    <element signature="e#4962#5146#0" expanded="false" />
-                    <element signature="e#4962#5112#1" expanded="false" />
-                    <element signature="e#5188#5439#0" expanded="false" />
-                    <element signature="e#5188#5405#1" expanded="false" />
-                    <element signature="e#5501#5908#0" expanded="false" />
-                    <element signature="e#5501#5886#1" expanded="false" />
-                    <element signature="e#6009#8367#0" expanded="false" />
-                    <element signature="e#6009#6585#1" expanded="false" />
-                    <element signature="e#6665#6889#0" expanded="false" />
-                    <element signature="e#6923#6957#0" expanded="false" />
-                    <element signature="e#6998#7144#0" expanded="false" />
-                    <element signature="e#7197#7559#0" expanded="false" />
-                    <element signature="e#7593#7716#0" expanded="false" />
-                    <element signature="e#7746#7977#0" expanded="false" />
-                    <element signature="e#8247#8307#0" expanded="false" />
-                    <element signature="e#8341#8364#0" expanded="false" />
-                    <element signature="e#8522#9507#0" expanded="false" />
-                    <element signature="e#8522#8834#1" expanded="false" />
-                    <element signature="e#9551#10396#0" expanded="false" />
-                    <element signature="e#9551#9844#1" expanded="false" />
-                    <element signature="e#10443#10836#0" expanded="false" />
-                    <element signature="e#10443#10512#1" expanded="false" />
-                    <element signature="e#10881#10978#0" expanded="false" />
-                    <element signature="e#11024#11122#0" expanded="false" />
-                    <element signature="e#11164#11646#0" expanded="false" />
-                    <element signature="e#11694#13026#0" expanded="false" />
-                    <element signature="e#13067#13157#0" expanded="false" />
-                    <element signature="e#13209#13928#0" expanded="false" />
-                    <element signature="e#13281#13833#0" expanded="false" />
-                    <element signature="e#13976#14144#0" expanded="false" />
-                    <element signature="e#14423#14672#0" expanded="false" />
-                    <element signature="e#14423#14566#1" expanded="false" />
-                    <element signature="e#14721#14865#0" expanded="false" />
-                    <element signature="e#14918#15841#0" expanded="false" />
-                    <element signature="e#14918#14996#1" expanded="false" />
-                    <element signature="e#15130#15743#0" expanded="false" />
-                    <element signature="e#15879#16908#0" expanded="false" />
-                    <element signature="e#16961#17995#0" expanded="false" />
-                    <element signature="e#17009#17597#0" expanded="false" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="cab320_sokoban_gui.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/cab320_sokoban_gui.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0">
-                  <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-first>
-      <split-second>
-        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="main.py" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/main.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.53382087">
-                  <caret line="46" column="13" selection-start-line="46" selection-start-column="13" selection-end-line="46" selection-end-column="13" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="warehouse_121.txt" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/warehouses/warehouse_121.txt">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0">
-                  <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="warehouse_35.txt" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/warehouses/warehouse_35.txt">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0">
-                  <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="warehouse_59.txt" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/warehouses/warehouse_59.txt">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0">
-                  <caret line="8" column="14" selection-start-line="8" selection-start-column="14" selection-end-line="8" selection-end-column="14" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="warehouse_05.txt" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/warehouses/warehouse_05.txt">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0">
-                  <caret line="3" column="7" selection-start-line="3" selection-start-column="7" selection-end-line="3" selection-end-column="7" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-second>
-    </splitter>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="test.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/test.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#10#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mySokobanSolver.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/mySokobanSolver.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-352.32074">
+              <caret line="1314" column="38" selection-start-line="1314" selection-start-column="38" selection-end-line="1314" selection-end-column="38" />
+              <folding>
+                <element signature="e#0#86#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/main.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#29#0" expanded="true" />
+                <element signature="e#957#1347#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="cab320_search.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/cab320_search.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-11.5841875">
+              <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -238,15 +101,17 @@
         <option value="$PROJECT_DIR$/2016_sokoban_BB/warehouses/warehouse_03.txt" />
         <option value="$PROJECT_DIR$/2016_sokoban_BB/test_shortest_path.py" />
         <option value="$PROJECT_DIR$/2016_sokoban_BB/test.py" />
-        <option value="$PROJECT_DIR$/2016_sokoban_BB/cab320_search.py" />
-        <option value="$PROJECT_DIR$/2016_sokoban_BB/mySokobanSolver.py" />
         <option value="$PROJECT_DIR$/2016_sokoban_BB/main.py" />
+        <option value="$PROJECT_DIR$/2016_sokoban_BB/mySokobanSolver.py" />
+        <option value="$PROJECT_DIR$/2016_sokoban_BB/cab320_search.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="width" value="1280" />
-    <option name="height" value="800" />
+    <option name="x" value="1280" />
+    <option name="y" value="-280" />
+    <option name="width" value="1920" />
+    <option name="height" value="1080" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -319,7 +184,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="test_suite" />
+              <option name="myItemId" value="warehouses" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -554,9 +419,9 @@
       <list size="5">
         <item index="0" class="java.lang.String" itemvalue="Python.main" />
         <item index="1" class="java.lang.String" itemvalue="Python.test" />
-        <item index="2" class="java.lang.String" itemvalue="Python.cab320_sokoban_gui" />
-        <item index="3" class="java.lang.String" itemvalue="Python.cab320_search" />
-        <item index="4" class="java.lang.String" itemvalue="Python.mySokobanSolver" />
+        <item index="2" class="java.lang.String" itemvalue="Python.mySokobanSolver" />
+        <item index="3" class="java.lang.String" itemvalue="Python.cab320_sokoban_gui" />
+        <item index="4" class="java.lang.String" itemvalue="Python.cab320_search" />
       </list>
     </recent_temporary>
   </component>
@@ -606,15 +471,15 @@
     </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1280" height="800" extended-state="0" />
+    <frame x="1280" y="-280" width="1920" height="1080" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.16441621" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.164297" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20722891" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20684932" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32970297" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21232876" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" x="1280" y="23" width="1280" height="773" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2960396" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" x="1280" y="23" width="1280" height="773" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -665,27 +530,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/warehouses/warehouse_27.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/warehouses/warehouse_29.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/warehouses/warehouse_31.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/warehouses/warehouse_43.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -847,13 +691,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/test">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.24439919">
-          <caret line="16" column="51" selection-start-line="16" selection-start-column="51" selection-end-line="16" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/warehouses/warehouse_13.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -944,42 +781,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/warehouses/warehouse_05.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="3" column="7" selection-start-line="3" selection-start-column="7" selection-end-line="3" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/warehouses/warehouse_69.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.2">
           <caret line="4" column="9" selection-start-line="4" selection-start-column="9" selection-end-line="4" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/warehouses/warehouse_59.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="8" column="14" selection-start-line="8" selection-start-column="14" selection-end-line="8" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/warehouses/warehouse_35.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/cab320_sokoban_gui.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1000,84 +805,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/cab320_search.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
-          <folding>
-            <element signature="e#652#942#0" expanded="false" />
-            <element signature="e#765#891#0" expanded="false" />
-            <element signature="e#975#1280#0" expanded="false" />
-            <element signature="e#975#1168#1" expanded="false" />
-            <element signature="e#1553#2295#0" expanded="false" />
-            <element signature="e#1553#2161#1" expanded="false" />
-            <element signature="e#2195#2220#0" expanded="false" />
-            <element signature="e#2259#2295#0" expanded="false" />
-            <element signature="e#2319#2461#0" expanded="false" />
-            <element signature="e#2319#2447#1" expanded="false" />
-            <element signature="e#2504#2789#0" expanded="false" />
-            <element signature="e#2504#2630#1" expanded="false" />
-            <element signature="e#2664#2696#0" expanded="false" />
-            <element signature="e#2725#2789#0" expanded="false" />
-            <element signature="e#2824#3913#0" expanded="false" />
-            <element signature="e#2824#2966#1" expanded="false" />
-            <element signature="e#3015#3045#0" expanded="false" />
-            <element signature="e#3083#3127#0" expanded="false" />
-            <element signature="e#3160#3178#0" expanded="false" />
-            <element signature="e#3211#3229#0" expanded="false" />
-            <element signature="e#3258#3387#0" expanded="false" />
-            <element signature="e#3431#3529#0" expanded="false" />
-            <element signature="e#3571#3707#0" expanded="false" />
-            <element signature="e#3749#3913#0" expanded="false" />
-            <element signature="e#4023#5911#0" expanded="false" />
-            <element signature="e#4023#4306#1" expanded="false" />
-            <element signature="e#4360#4591#0" expanded="false" />
-            <element signature="e#4360#4534#1" expanded="false" />
-            <element signature="e#4631#4915#0" expanded="false" />
-            <element signature="e#4631#4881#1" expanded="false" />
-            <element signature="e#4962#5146#0" expanded="false" />
-            <element signature="e#4962#5112#1" expanded="false" />
-            <element signature="e#5188#5439#0" expanded="false" />
-            <element signature="e#5188#5405#1" expanded="false" />
-            <element signature="e#5501#5908#0" expanded="false" />
-            <element signature="e#5501#5886#1" expanded="false" />
-            <element signature="e#6009#8367#0" expanded="false" />
-            <element signature="e#6009#6585#1" expanded="false" />
-            <element signature="e#6665#6889#0" expanded="false" />
-            <element signature="e#6923#6957#0" expanded="false" />
-            <element signature="e#6998#7144#0" expanded="false" />
-            <element signature="e#7197#7559#0" expanded="false" />
-            <element signature="e#7593#7716#0" expanded="false" />
-            <element signature="e#7746#7977#0" expanded="false" />
-            <element signature="e#8247#8307#0" expanded="false" />
-            <element signature="e#8341#8364#0" expanded="false" />
-            <element signature="e#8522#9507#0" expanded="false" />
-            <element signature="e#8522#8834#1" expanded="false" />
-            <element signature="e#9551#10396#0" expanded="false" />
-            <element signature="e#9551#9844#1" expanded="false" />
-            <element signature="e#10443#10836#0" expanded="false" />
-            <element signature="e#10443#10512#1" expanded="false" />
-            <element signature="e#10881#10978#0" expanded="false" />
-            <element signature="e#11024#11122#0" expanded="false" />
-            <element signature="e#11164#11646#0" expanded="false" />
-            <element signature="e#11694#13026#0" expanded="false" />
-            <element signature="e#13067#13157#0" expanded="false" />
-            <element signature="e#13209#13928#0" expanded="false" />
-            <element signature="e#13281#13833#0" expanded="false" />
-            <element signature="e#13976#14144#0" expanded="false" />
-            <element signature="e#14423#14672#0" expanded="false" />
-            <element signature="e#14423#14566#1" expanded="false" />
-            <element signature="e#14721#14865#0" expanded="false" />
-            <element signature="e#14918#15841#0" expanded="false" />
-            <element signature="e#14918#14996#1" expanded="false" />
-            <element signature="e#15130#15743#0" expanded="false" />
-            <element signature="e#15879#16908#0" expanded="false" />
-            <element signature="e#16961#17995#0" expanded="false" />
-            <element signature="e#17009#17597#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.31627056">
@@ -1086,60 +813,105 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/mySokobanSolver.py">
+    <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/cab320_sokoban_gui.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.46617916">
-          <caret line="1025" column="0" selection-start-line="1025" selection-start-column="0" selection-end-line="1025" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#64#0" expanded="true" />
-            <element signature="e#203#16662#0" expanded="false" />
-            <element signature="e#594#1420#0" expanded="false" />
-            <element signature="e#1462#1934#0" expanded="false" />
-            <element signature="e#1974#4687#0" expanded="false" />
-            <element signature="e#4734#6427#0" expanded="false" />
-            <element signature="e#6465#6753#0" expanded="false" />
-            <element signature="e#6792#14399#0" expanded="false" />
-            <element signature="e#14461#14817#0" expanded="false" />
-            <element signature="e#14868#15715#0" expanded="false" />
-            <element signature="e#15748#16662#0" expanded="false" />
-            <element signature="e#16711#35692#0" expanded="false" />
-            <element signature="e#16787#26273#0" expanded="false" />
-            <element signature="e#26339#29107#0" expanded="false" />
-            <element signature="e#29187#29781#0" expanded="false" />
-            <element signature="e#29821#31283#0" expanded="false" />
-            <element signature="e#31330#33462#0" expanded="false" />
-            <element signature="e#33513#33975#0" expanded="false" />
-            <element signature="e#34037#34590#0" expanded="false" />
-            <element signature="e#34641#35692#0" expanded="false" />
-            <element signature="e#35728#38454#0" expanded="false" />
-            <element signature="e#35938#36429#0" expanded="false" />
-            <element signature="e#36469#37392#0" expanded="false" />
-            <element signature="e#37439#37970#0" expanded="false" />
-            <element signature="e#38012#38138#0" expanded="false" />
-            <element signature="e#38171#38452#0" expanded="false" />
-            <element signature="e#38594#42599#0" expanded="false" />
-            <element signature="e#42724#49924#0" expanded="false" />
-            <element signature="e#50080#51405#0" expanded="false" />
-            <element signature="e#51556#53114#0" expanded="false" />
-            <element signature="e#53236#53346#0" expanded="false" />
-          </folding>
+        <state vertical-scroll-proportion="0.47619048">
+          <caret line="34" column="15" selection-start-line="34" selection-start-column="15" selection-end-line="34" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/warehouses/warehouse_35.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.40816328">
+          <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/warehouses/warehouse_59.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.27210885">
+          <caret line="8" column="14" selection-start-line="8" selection-start-column="14" selection-end-line="8" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/warehouses/warehouse_05.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3265306">
+          <caret line="3" column="7" selection-start-line="3" selection-start-column="7" selection-end-line="3" selection-end-column="7" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.57586837">
-          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/warehouses/warehouse_105.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.53382087">
-          <caret line="46" column="13" selection-start-line="46" selection-start-column="13" selection-end-line="46" selection-end-column="13" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#29#0" expanded="true" />
+            <element signature="e#957#1347#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/warehouses/warehouse_107.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/warehouses/warehouse_109.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/warehouses/warehouse_111.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/mySokobanSolver.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-352.32074">
+          <caret line="1314" column="38" selection-start-line="1314" selection-start-column="38" selection-end-line="1314" selection-end-column="38" />
+          <folding>
+            <element signature="e#0#86#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/2016_sokoban_BB/cab320_search.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.5841875">
+          <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
           <folding />
         </state>
       </provider>

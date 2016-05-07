@@ -1,4 +1,4 @@
-from cab320_search import Problem, astar_search, ida_star_search
+from cab320_search import Problem, astar_search, ida_star_search, astar_search_timeout
 import cab320_sokoban
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -76,11 +76,13 @@ class SokobanPuzzle(Problem):
             if (w_x_left, w_y) in state:
                 (b_x, b_y) = (w_x_left, w_y)
                 b_x_left = b_x - 1
+                # is the boxed pushing into a taboo/wall/another_box
                 if (b_x_left, b_y) not in self.warehouse.walls and (b_x_left, b_y) not in state\
-                        and (b_x_left, b_y) not in self.taboo:  # is the boxed pushing into a taboo/wall/another_box
+                        and (b_x_left, b_y) not in self.taboo:
                     actions.append('Left')
             else:
                 actions.append('Left')
+
         if (w_x_right, w_y) not in self.warehouse.walls:
             if (w_x_right, w_y) in state:
                 (b_x, b_y) = (w_x_right, w_y)
@@ -90,6 +92,7 @@ class SokobanPuzzle(Problem):
                     actions.append('Right')
             else:
                 actions.append('Right')
+
         if (w_x, w_y_down) not in self.warehouse.walls:
             if (w_x, w_y_down) in state:
                 (b_x, b_y) = (w_x, w_y_down)
@@ -99,6 +102,7 @@ class SokobanPuzzle(Problem):
                     actions.append('Down')
             else:
                 actions.append('Down')
+
         if (w_x, w_y_up) not in self.warehouse.walls:
             if (w_x, w_y_up) in state:
                 (b_x, b_y) = (w_x, w_y_up)
@@ -108,6 +112,7 @@ class SokobanPuzzle(Problem):
                     actions.append('Up')
             else:
                 actions.append('Up')
+
         return actions
 
     def result(self, state, action):
@@ -124,6 +129,7 @@ class SokobanPuzzle(Problem):
 
         if action == 'Left':
             w_x1 = w_x - 1
+            # check if the worker pushes a box
             if (w_x1, w_y) in state:
                 (b_x, b_y) = (w_x1, w_y)
                 state[state.index((b_x, b_y))] = (b_x - 1, b_y)  # Move pushed box left
@@ -133,23 +139,26 @@ class SokobanPuzzle(Problem):
             w_x1 = w_x + 1
             if (w_x1, w_y) in state:
                 (b_x, b_y) = (w_x1, w_y)
-                state[state.index((b_x, b_y))] = (b_x + 1, b_y)  # Move pushed box right
+                state[state.index((b_x, b_y))] = (b_x + 1, b_y)
             state.insert(0, (w_x1, w_y))
+
         elif action == 'Down':
             w_y1 = w_y + 1
             if (w_x, w_y1) in state:
                 (b_x, b_y) = (w_x, w_y1)
-                state[state.index((b_x, b_y))] = (b_x, b_y + 1)  # Move pushed box left
+                state[state.index((b_x, b_y))] = (b_x, b_y + 1)
             state.insert(0, (w_x, w_y1))
 
         elif action == 'Up':
             w_y1 = w_y - 1
             if (w_x, w_y1) in state:
                 (b_x, b_y) = (w_x, w_y1)
-                state[state.index((b_x, b_y))] = (b_x, b_y - 1)  # Move pushed box left
+                state[state.index((b_x, b_y))] = (b_x, b_y - 1)
             state.insert(0, (w_x, w_y1))
+
         else:
             raise ValueError("Invalid action given")
+
         return tuple(state)
 
     def getGoalState(self):
@@ -157,9 +166,9 @@ class SokobanPuzzle(Problem):
         Show the goal state of the warehouse.
         :return goalState: string representation of the goal warehouse
         """
-        goalState = self.warehouse.visualize()
-        goalState = goalState.replace("$", " ").replace(".", "*").replace("@", " ")
-        return goalState
+        goal_state = self.warehouse.visualize()
+        goal_state = goal_state.replace("$", " ").replace(".", "*").replace("@", " ")
+        return goal_state
 
     def getTabooCells(self):
         """
@@ -199,9 +208,12 @@ class SokobanPuzzle(Problem):
 
         :return taboo_targets_removed: tuple of taboo cells
         """
+
+        # get x and y coordinates of the walls
         walls_y = [b for (a,b) in self.warehouse.walls]
         walls_x = [a for (a,b) in self.warehouse.walls]
 
+        # determine starting coordinates of the walls
         walls_x_start = min(walls_x)
         walls_x_end = max(walls_x)
 
@@ -210,6 +222,7 @@ class SokobanPuzzle(Problem):
         
         taboo = list()
 
+        # go through each accessible row
         for row in xrange(wall_y_start + 1, wall_y_end):
 
             # get the walls above, below and on the current row
@@ -217,10 +230,9 @@ class SokobanPuzzle(Problem):
             row_below_walls = [a for (a,b) in self.warehouse.walls if b == row + 1]
             row_current_walls = [a for (a,b) in self.warehouse.walls if b == row]
 
-            # determine which pos can be accessed by boxes
             accessible_cells = list()
 
-            # determine accessible warehouse positions
+            # determine accessible warehouse positions for the boxes and worker
             for pos in xrange(row_current_walls[0],row_current_walls[-1] + 1):
                 if pos not in row_current_walls:
                     if accessible_cells:  # not empty list
@@ -264,11 +276,13 @@ class SokobanPuzzle(Problem):
                     for pos in segment:
                         taboo.append((pos, row))
                 else:
+                    # Check for corner taboo positions
                     for pos in segment:
                         if ((pos - 1) in row_current_walls or (pos + 1) in row_current_walls) and (pos in
                         row_below_walls or pos in row_above_walls):
                             taboo.append((pos, row))
 
+        # Repeat the same checks for the columns
         for col in xrange(walls_x_start + 1, walls_x_end):
             row_left_walls = [b for (a,b) in self.warehouse.walls if a == col - 1]
             row_right_walls = [b for (a,b) in self.warehouse.walls if a == col + 1]
@@ -394,7 +408,7 @@ class SokobanPuzzle(Problem):
 
 class SokobanPuzzleMacro(SokobanPuzzle):
 
-    def worker_adjacent_to_move_able_box(self, worker, state_of_boxes):
+    def worker_adjacent_to_moveable_box(self, worker, state_of_boxes):
         """
         This method firstly identifies whether the worker is adjacent to a box.
         If the worker is adjacent to a box, it will check if pushing that box is viable
@@ -431,6 +445,7 @@ class SokobanPuzzleMacro(SokobanPuzzle):
         # meaningful action means a box is being pushed
         meaningful_actions = []
 
+        # LEFT
         if (w_x_left, w_y) in state_of_boxes:  # if left of the worker has a box
             b_x_left = w_x_left - 1
             b_y = w_y
@@ -439,40 +454,44 @@ class SokobanPuzzleMacro(SokobanPuzzle):
             if (b_x_left, b_y) not in self.warehouse.walls and (b_x_left, b_y) not in state_of_boxes\
                     and (b_x_left, b_y) not in self.taboo:
 
-                # Check if moving the box will cause a dynamic dead lock
+                # check if moving the box will cause a dynamic dead lock
                 adj_box_above = (b_x_left, b_y - 1)
                 adj_box_below =(b_x_left, b_y + 1)
 
+                # check above and below the target location for a box
                 if adj_box_above not in state_of_boxes and adj_box_below not in state_of_boxes:
                     meaningful_actions.append("Left")
                 else:
 
                     dead_lock = False
 
-                    if adj_box_above in state_of_boxes:  # Theres a box adjacent (above)
+                    if adj_box_above in state_of_boxes:  # There is a box adjacent (above)
                         b_adj_above_x, b_adj_above_y = adj_box_above
 
                         check_wall_adj = b_adj_above_x - 1, b_adj_above_y
                         check_wall_box = b_x_left - 1, b_y
 
+                        # check if there is a wall adjacent to the box above and the target location
                         if check_wall_adj in self.warehouse.walls and check_wall_box in self.warehouse.walls:
                             if adj_box_above not in self.warehouse.targets and\
                             (b_x_left, b_y) not in self.warehouse.targets:
                                 dead_lock = True
 
-                    if adj_box_below in state_of_boxes:
+                    if adj_box_below in state_of_boxes:  # There is a box adjacent (below)
                         b_adj_below_x, b_adj_below_y = adj_box_below
 
                         check_wall_adj = b_adj_below_x - 1, b_adj_below_y
                         check_wall_box = b_x_left - 1, b_y
 
+                        # check if there is a wall adjacent to the box above and the target location
                         if check_wall_adj in self.warehouse.walls and check_wall_box in self.warehouse.walls:
                             if adj_box_below not in self.warehouse.targets or\
                             (b_x_left, b_y) not in self.warehouse.targets:
                                 dead_lock = True
                     if not dead_lock:
                         meaningful_actions.append("Left")
-        # check to the right of the worker for a box
+
+        # RIGHT
         if (w_x_right, w_y) in state_of_boxes:
             # check if that box can be moved
             b_x_right = w_x_right + 1
@@ -512,7 +531,7 @@ class SokobanPuzzleMacro(SokobanPuzzle):
                                 dead_lock = True
                     if not dead_lock:
                         meaningful_actions.append("Right")
-
+        # UP
         if (w_x, w_y_up) in state_of_boxes:
             # check if that box can be moved
             b_x = w_x
@@ -554,6 +573,7 @@ class SokobanPuzzleMacro(SokobanPuzzle):
                                     dead_lock = True
                     if not dead_lock:
                         meaningful_actions.append("Up")
+        # DOWN
         if (w_x, w_y_down) in state_of_boxes:
             # check if that box can be moved
             b_x = w_x
@@ -595,7 +615,6 @@ class SokobanPuzzleMacro(SokobanPuzzle):
                                     dead_lock = True
                     if not dead_lock:
                         meaningful_actions.append("Down")
-        # print meaningful_actions
         return meaningful_actions
 
     def get_macro_end_points(self, box, worker, state):
@@ -634,7 +653,7 @@ class SokobanPuzzleMacro(SokobanPuzzle):
         b_y_up = b_y - 1
         b_y_down = b_y + 1
 
-        macro_end_point = list()
+        macro_end_point = []
 
         # check for walls/boxes to the left and right of the box of interest
         if (b_x_left, b_y) not in self.warehouse.walls and (b_x_left, b_y) not in state\
@@ -698,8 +717,7 @@ class SokobanPuzzleMacro(SokobanPuzzle):
         w_x, w_y = state.pop(0)
 
         # Check if the worker is adjacent to a box, get any viable actions that will push the box
-        actions_move_boxes = self.worker_adjacent_to_move_able_box((w_x, w_y), state)
-
+        actions_move_boxes = self.worker_adjacent_to_moveable_box((w_x, w_y), state)
         # if there are any actions which move the box, add it to the list
         if actions_move_boxes:
             for action in actions_move_boxes:
@@ -938,7 +956,7 @@ def checkActions(puzzleFileName, actionSequence):
         @param actionSequence: a sequence of actions.
                For example, ['Left', 'Down', Down','Right', 'Up', 'Down']
         @return:
-            The string 'Failure', if one of the move was not successul.
+            The string 'Failure', if one of the move was not successful.
                For example, if the agent tries to push two boxes,
                             or push into to push into a wall.
             Otherwise, if all moves were successful return                 
@@ -1043,6 +1061,8 @@ def tabooCells(puzzleFileName):
                    Apart from the 'X's, the string should follows the same format as the
                    string returned by the method  Warehouse.visualize()
         """
+
+        # REFER TO SokobanPuzzle.getTabooCells for documentation
         s = SokobanPuzzle(puzzleFileName)
         walls_y = [b for (a,b) in s.warehouse.walls]
         walls_x = [a for (a,b) in s.warehouse.walls]
@@ -1147,7 +1167,7 @@ def tabooCells(puzzleFileName):
                 if not segment:
                     raise ValueError("accessible segment is empty")
 
-             # Begin determining taboo cells
+            # Begin determining taboo cells
             # Check if the cells are bounded by a U shape
             for segment in accessible_segments:
                 bounded_left_wall = True
@@ -1170,8 +1190,14 @@ def tabooCells(puzzleFileName):
                         row_left_walls or pos in row_right_walls):
                             taboo.append((col, pos))
 
-
-        def visualize_taboo_cells(walls, targets, boxes, taboo):
+        def visualize_taboo_cells(walls, targets, taboo):
+            """
+            Modified visualize function to not show workers and boxes
+            :param walls:
+            :param targets:
+            :param taboo:
+            :return: string representation of warehouse with taboo cells marked
+            """
             X,Y = zip(*walls)  # pythonic version of the above
             x_size, y_size = 1+max(X), 1+max(Y)
 
@@ -1185,7 +1211,7 @@ def tabooCells(puzzleFileName):
             return "\n".join(["".join(line) for line in vis])
         taboo_with_targets = [t for t in taboo if t not in s.warehouse.targets]
 
-        return visualize_taboo_cells(s.warehouse.walls, s.warehouse.targets, s.warehouse.boxes, taboo_with_targets)
+        return visualize_taboo_cells(s.warehouse.walls, s.warehouse.targets, taboo_with_targets)
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -1211,12 +1237,15 @@ def solveSokoban_elementary(puzzleFileName, timeLimit = None):
         """
 
         soko_problem = SokobanPuzzle(puzzleFileName)
-        sol = astar_search(soko_problem)
+        sol = astar_search_timeout(soko_problem, timeLimit=timeLimit)
         actions = []
 
         if sol is None:
             return ['Impossible']
+        elif sol == 'timeout':
+            return ['Timeout']
         else:
+            # get the actions from the node obj
             for node in sol.path():
                 if node.action is not None:
                     if isinstance(node.action, list):
@@ -1256,13 +1285,15 @@ def solveSokoban_macro(puzzleFileName, timeLimit = None):
         """
 
         soko = SokobanPuzzleMacro(puzzleFileName)
-        sol = astar_search(soko)
-
+        sol = astar_search_timeout(soko, timeLimit=timeLimit)
         actions = []
 
         if sol is None:
             return ['Impossible']
+        elif sol == 'timeout':
+            return ['Timeout']
         else:
+            # get the actions from the node obj
             for node in sol.path():
                 if node.action is not None:
                     if isinstance(node.action, list):
@@ -1278,6 +1309,11 @@ def solveSokoban_macro(puzzleFileName, timeLimit = None):
 
 
 def test_solver(puzzleFileName):
+    """
+    Used to test ida*
+    :param puzzleFileName:
+    :return: solution node or 'cutoff' or None
+    """
     soko_problem = SokobanPuzzleMacro(puzzleFileName)
     answer = ida_star_search(soko_problem)
     return answer

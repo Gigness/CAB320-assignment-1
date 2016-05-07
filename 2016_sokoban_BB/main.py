@@ -4,21 +4,21 @@ import time
 
 def main():
     path = "/Users/Gigness/CAB320/assignment_one/2016_sokoban_bb/warehouses"
-    warehouse = path + "/warehouse_05.txt"
+    warehouse = path + "/warehouse_103.txt"
 
     s = SokobanPuzzle(warehouse)
 
     t0 = time.time()
     sol = solveSokoban_elementary(warehouse)
     t1 = time.time()
-    print sol
+    print len(sol)
     print checkActions(warehouse, sol)
     print "Solver took ", t1-t0, " seconds"
 
 
 def macro():
     path = "/Users/Gigness/CAB320/assignment_one/2016_sokoban_bb/warehouses"
-    warehouse = path + "/warehouse_103.txt"
+    warehouse = path + "/warehouse_105.txt"
     s = SokobanPuzzleMacro(warehouse)
 
     # print s.taboo
@@ -27,11 +27,18 @@ def macro():
     sol = solveSokoban_macro(warehouse)
     t1 = time.time()
 
-    print sol
+    if sol is None:
+        print "no solution"
+    elif sol == ['Timeout']:
+        print "timed out"
+    else:
+        print len(sol)
+        print checkActions(warehouse, sol)
+        print "Solver took ", t1-t0, " seconds"
 
-    print checkActions(warehouse, sol)
-    print "Solver took ", t1-t0, " seconds"
 
+def test():
+    pass
 
 def macro_ida_star():
     path = "/Users/Gigness/CAB320/assignment_one/2016_sokoban_bb/warehouses"
