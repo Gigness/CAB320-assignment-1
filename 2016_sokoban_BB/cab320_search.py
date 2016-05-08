@@ -603,10 +603,8 @@ def ida_star_search_limited(problem, limit):
     """
     def a_star_bounded_search(node, bound):
         f_val = f(node)
-        # print node, " f: ", f_val, " , bound: ", bound
 
         if f_val > bound:
-            # print "cutoff"
             return f_val
         elif problem.goal_test(node.state):
             return node
